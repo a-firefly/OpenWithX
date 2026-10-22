@@ -12,7 +12,7 @@
 
 ## TDD 与自动验证
 
-用户确认三个测试边界：TargetFolderSelection、LocalVolumeCoverage 和打开请求入口（NSWorkspace 系统边界可替换）。前两个边界保留已有行为测试；新增入口先测试再实现。
+用户确认三个测试边界：TargetFolderSelection、LocalVolumeCoverage 和打开请求入口（NSWorkspace 系统边界可替换）。前两个边界保留已有行为测试；新增入口先测试再实现。两路最终审查均无发现，见 [review.md](review.md)。
 
 | 检查 | 结果与本机日志 |
 | --- | --- |
