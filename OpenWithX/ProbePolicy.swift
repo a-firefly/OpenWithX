@@ -1,6 +1,6 @@
 import Foundation
 
-// Validation-only policies. Finder callbacks and sandbox grants require real-system evidence.
+// Finder callbacks and sandbox grants require real-system evidence in addition to policy tests.
 nonisolated enum TargetFolderSelection {
     static func target(in urls: [URL]) -> URL? {
         guard urls.count == 1, let url = urls.first, url.isFileURL,

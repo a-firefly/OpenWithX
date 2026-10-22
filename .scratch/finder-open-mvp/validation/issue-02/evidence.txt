@@ -1,0 +1,10 @@
+Timestamp               Ty Process[PID:TID]
+2026-10-22 18:38:50.187 Df FinderProbe[31072:3af44] [com.point.OpenWithX.FinderProbe:finder] Registered local volume count: 2
+2026-10-22 18:38:50.188 Df FinderProbe[31072:3af44] [com.point.OpenWithX.FinderProbe:finder] Application selection synchronized using recipient-owned authorization
+2026-10-22 18:38:50.188 Df FinderProbe[31072:3af44] [com.point.OpenWithX.FinderProbe:finder] Finder extension started; scope registration is not an access grant
+2026-10-22 18:38:58.600 Df FinderProbe[31082:3b0f6] [com.point.OpenWithX.FinderProbe:finder] Registered local volume count: 2
+2026-10-22 18:38:58.602 Df FinderProbe[31082:3b0f6] [com.point.OpenWithX.FinderProbe:finder] Application selection synchronized using recipient-owned authorization
+2026-10-22 18:38:58.602 Df FinderProbe[31082:3b0f6] [com.point.OpenWithX.FinderProbe:finder] Finder extension started; scope registration is not an access grant
+2026-10-22 18:39:10.521 Df FinderProbe[31082:3b0fb] [com.point.OpenWithX.FinderProbe:finder] NSWorkspace accepted the open request; editor loading is not verified
+2026-10-22 18:40:02.962 Df FinderProbe[31082:3b6ac] [com.point.OpenWithX.FinderProbe:finder] NSWorkspace accepted the open request; editor loading is not verified
+2026-10-22 18:40:25.948 Df FinderProbe[31082:3b9a2] [com.point.OpenWithX.FinderProbe:finder] NSWorkspace accepted the open request; editor loading is not verified

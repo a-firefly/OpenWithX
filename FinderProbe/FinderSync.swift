@@ -4,7 +4,7 @@ import OSLog
 
 @objc(FinderSync)
 final class FinderSync: FIFinderSync {
-    private let logger = Logger(subsystem: "com.point.OpenWithX.FinderProbe", category: "validation")
+    private let logger = Logger(subsystem: "com.point.OpenWithX.FinderProbe", category: "finder")
     private var observers: [NSObjectProtocol] = []
     private var selectionObserver: NSObjectProtocol?
 
@@ -21,7 +21,7 @@ final class FinderSync: FIFinderSync {
             forName: ProbeConfiguration.selectionChanged, object: nil, queue: .main
         ) { [weak self] _ in self?.receiveSelection() }
         receiveSelection()
-        logger.notice("Probe extension started; scope registration is not an access grant")
+        logger.notice("Finder extension started; scope registration is not an access grant")
     }
 
     deinit {
@@ -72,20 +72,14 @@ final class FinderSync: FIFinderSync {
             reportFailure(CocoaError(.fileNoSuchFile))
             return
         }
-        do {
-            let application = try ProbeConfiguration.extensionApplication()
-            try VSCodeSelection.checkRunningApplications(for: application, runningApplications:
-                NSRunningApplication.runningApplications(withBundleIdentifier: "com.microsoft.VSCode")
-                    .compactMap(\.bundleURL))
-            let configuration = NSWorkspace.OpenConfiguration()
-            configuration.activates = true
-            configuration.allowsRunningApplicationSubstitution = false
-            let projectURL = try VSCodeProjectURL.make(for: target)
-            NSWorkspace.shared.open([projectURL], withApplicationAt: application, configuration: configuration) { [self] _, error in
-                if let error { reportFailure(error) }
-                else { logger.notice("NSWorkspace accepted the open request; editor loading is not verified") }
+        TargetFolderOpener().open(target) { [self] result in
+            switch result {
+            case .success:
+                logger.notice("NSWorkspace accepted the open request; editor loading is not verified")
+            case .failure(let error):
+                reportFailure(error)
             }
-        } catch { reportFailure(error) }
+        }
     }
 
     private func reportFailure(_ error: Error) {

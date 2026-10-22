@@ -29,8 +29,8 @@ struct ContentView: View {
 
     var body: some View {
         Form {
-            Text("OpenWithX · Issue 01 验证原型").font(.title2)
-            Text("本构建仅用于可行性实测，验证关卡尚未通过。")
+            Text("OpenWithX").font(.title2)
+            Text("在 Finder 中右击本地单个普通文件夹，使用 VS Code 在新窗口打开。")
             Text("VS Code：\(applicationStatus)")
             HStack {
                 Button("重新检测", action: refresh)
@@ -52,7 +52,7 @@ struct ContentView: View {
                 FIFinderSyncController.showExtensionManagementInterface()
             }
             Text("Finder 菜单与打开链路：尚未记录实测通过。系统已启用不代表实际菜单可用。")
-            Text("无需选择项目目录。仅验证本地单个普通文件夹；云盘、网络卷和特殊位置尚未验证。")
+            Text("无需选择项目目录。支持本地单个普通文件夹；云盘、网络卷和特殊位置尚未验证。")
             if let failure {
                 Text(failure.message).foregroundStyle(.red)
                 DisclosureGroup("原始错误（可能含本机路径）") {
