@@ -46,4 +46,29 @@ struct OpenWithXTests {
             try VSCodeSelection.resolve(bookmark: nil, automaticallyDiscoveredURL: nil)
         }
     }
+    @Test func transferredApplicationGetsARecipientOwnedBookmark() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        let application = root.appendingPathComponent("Selected Code.app", isDirectory: true)
+        let contents = application.appendingPathComponent("Contents")
+        try FileManager.default.createDirectory(at: contents, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "com.microsoft.VSCode"], format: .xml, options: 0
+        )
+        try info.write(to: contents.appendingPathComponent("Info.plist"))
+        let transfer = try VSCodeSelection.transfer(application)
+        let recipientBookmark = try VSCodeSelection.adopt(transfer, originalPath: application.path)
+        #expect(try VSCodeSelection.resolve(bookmark: recipientBookmark, automaticallyDiscoveredURL: nil) == application)
+        #expect(throws: VSCodeSelection.Failure.reselect) {
+            try VSCodeSelection.adopt(transfer, originalPath: "/a/different/Selected Code.app")
+        }
+    }
+    @Test func manualSelectionUsesOnlyItsMatchingSystemApplicationURL() throws {
+        let chosen = URL(fileURLWithPath: "/Applications/Selected/Visual Studio Code.app", isDirectory: true)
+        let other = URL(fileURLWithPath: "/Applications/Other/Visual Studio Code.app", isDirectory: true)
+        #expect(try VSCodeSelection.launchURL(for: chosen, registeredApplications: [other, chosen]) == chosen)
+        #expect(throws: VSCodeSelection.Failure.reselect) {
+            try VSCodeSelection.launchURL(for: chosen, registeredApplications: [other])
+        }
+    }
 }

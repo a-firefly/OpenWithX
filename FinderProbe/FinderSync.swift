@@ -6,6 +6,7 @@ import OSLog
 final class FinderSync: FIFinderSync {
     private let logger = Logger(subsystem: "com.point.OpenWithX.FinderProbe", category: "validation")
     private var observers: [NSObjectProtocol] = []
+    private var selectionObserver: NSObjectProtocol?
 
     override init() {
         super.init()
@@ -16,11 +17,26 @@ final class FinderSync: FIFinderSync {
                 forName: name, object: nil, queue: .main
             ) { [weak self] _ in self?.updateCoverage() })
         }
+        selectionObserver = DistributedNotificationCenter.default().addObserver(
+            forName: ProbeConfiguration.selectionChanged, object: nil, queue: .main
+        ) { [weak self] _ in self?.receiveSelection() }
+        receiveSelection()
         logger.notice("Probe extension started; scope registration is not an access grant")
     }
 
     deinit {
         for observer in observers { NSWorkspace.shared.notificationCenter.removeObserver(observer) }
+        if let selectionObserver { DistributedNotificationCenter.default().removeObserver(selectionObserver) }
+    }
+
+    private func receiveSelection() {
+        do {
+            try ProbeConfiguration.receiveSelection()
+            logger.notice("Application selection synchronized using recipient-owned authorization")
+        } catch {
+            // A disabled extension may miss the sender's transfer window. Never auto-fallback.
+            logger.error("Application authorization not synchronized; explicit reselection may be required")
+        }
     }
 
     private func updateCoverage() {
@@ -57,12 +73,12 @@ final class FinderSync: FIFinderSync {
             return
         }
         do {
-            let application = try ProbeConfiguration.application()
-            let accessed = application.startAccessingSecurityScopedResource()
+            let application = try ProbeConfiguration.extensionApplication()
             let configuration = NSWorkspace.OpenConfiguration()
             configuration.activates = true
-            NSWorkspace.shared.open([target], withApplicationAt: application, configuration: configuration) { [self] _, error in
-                if accessed { application.stopAccessingSecurityScopedResource() }
+            configuration.allowsRunningApplicationSubstitution = false
+            let projectURL = try VSCodeProjectURL.make(for: target)
+            NSWorkspace.shared.open([projectURL], withApplicationAt: application, configuration: configuration) { [self] _, error in
                 if let error { reportFailure(error) }
                 else { logger.notice("NSWorkspace accepted the open request; editor loading is not verified") }
             }

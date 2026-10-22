@@ -1,5 +1,4 @@
 import Foundation
-import OSLog
 
 // Validation-only policies. Finder callbacks and sandbox grants require real-system evidence.
 nonisolated enum TargetFolderSelection {
@@ -30,6 +29,34 @@ nonisolated enum VSCodeSelection {
         case reselect
     }
 
+    static func launchURL(for selected: URL, registeredApplications: [URL]) throws -> URL {
+        guard let application = registeredApplications.first(where: {
+            $0.standardizedFileURL.path == selected.standardizedFileURL.path
+        }) else { throw Failure.reselect }
+        return application
+    }
+
+    // An implicit transfer is consumed while the sending app still holds access.
+    // The recipient then persists its OWN app-scope bookmark, never the sender's.
+    static func transfer(_ application: URL) throws -> Data {
+        try application.bookmarkData(options: .minimalBookmark,
+                                     includingResourceValuesForKeys: nil, relativeTo: nil)
+    }
+
+    static func adopt(_ transfer: Data, originalPath: String) throws -> Data {
+        do {
+            var stale = false
+            let application = try URL(resolvingBookmarkData: transfer, options: .withoutUI,
+                                      relativeTo: nil, bookmarkDataIsStale: &stale)
+            guard !stale, application.path == originalPath,
+                  Bundle(url: application)?.bundleIdentifier == "com.microsoft.VSCode" else {
+                throw Failure.reselect
+            }
+            return try application.bookmarkData(options: [.withSecurityScope, .securityScopeAllowOnlyReadAccess],
+                                                includingResourceValuesForKeys: nil, relativeTo: nil)
+        } catch { throw Failure.reselect }
+    }
+
     static func resolve(bookmark: Data?, automaticallyDiscoveredURL: URL?) throws -> URL {
         guard let bookmark else {
             guard let automaticallyDiscoveredURL else { throw Failure.notFound }
@@ -43,17 +70,25 @@ nonisolated enum VSCodeSelection {
             defer { if accessed { url.stopAccessingSecurityScopedResource() } }
             let matchesVSCode = Bundle(url: url)?.bundleIdentifier == "com.microsoft.VSCode"
             let exists = FileManager.default.fileExists(atPath: url.path)
-            Logger(subsystem: "com.point.OpenWithX.FinderProbe", category: "validation").notice(
-                "Manual application: stale=\(stale), scopedAccess=\(accessed), matchesVSCode=\(matchesVSCode), exists=\(exists)"
-            )
             guard !stale, matchesVSCode, exists else { throw Failure.reselect }
             return url
         } catch {
-            let failure = error as NSError
-            Logger(subsystem: "com.point.OpenWithX.FinderProbe", category: "validation").error(
-                "Manual application resolution failed: domain=\(failure.domain, privacy: .public), code=\(failure.code)"
-            )
             throw Failure.reselect
         }
+    }
+}
+
+nonisolated enum VSCodeProjectURL {
+    static func make(for folder: URL) throws -> URL {
+        guard folder.isFileURL else { throw CocoaError(.fileReadUnsupportedScheme) }
+        var components = URLComponents()
+        components.scheme = "vscode"
+        components.host = "file"
+        // A trailing slash requests a project, including names ending with :digits.
+        components.path = folder.path.hasSuffix("/") ? folder.path : folder.path + "/"
+        // Preserve the active project by requesting a separate VS Code window.
+        components.queryItems = [URLQueryItem(name: "windowId", value: "_blank")]
+        guard let url = components.url else { throw CocoaError(.fileReadInvalidFileName) }
+        return url
     }
 }

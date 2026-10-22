@@ -1,9 +1,11 @@
 import SwiftUI
+import Combine
 import FinderSync
 import UniformTypeIdentifiers
 
 struct ContentView: View {
-    @State private var extensionEnabled = false
+    @State private var extensionEnabled: Bool?
+    @State private var transferPending = false
     @State private var applicationStatus = "未检测"
     @State private var failure: String?
     @Environment(\.scenePhase) private var scenePhase
@@ -18,14 +20,16 @@ struct ContentView: View {
                 Button("手动选择正式版 VS Code", action: selectApplication)
                 Button("恢复自动发现") {
                     do {
-                        let defaults = try ProbeConfiguration.defaults()
-                        defaults.removeObject(forKey: ProbeConfiguration.bookmarkKey)
-                        defaults.removeObject(forKey: ProbeConfiguration.pathKey)
+                        try ProbeConfiguration.clearSelection()
+                        failure = nil
                         refresh()
                     } catch { failure = error.localizedDescription }
                 }
             }
-            Text("系统扩展状态：\(extensionEnabled ? "已启用" : "未启用")")
+            Text("系统扩展状态：\(extensionStatus)")
+            if transferPending {
+                Text("正在等待扩展保存 VS Code 授权。请保持此窗口打开；启用扩展后若仍在等待，请重新选择 VS Code。")
+            }
             Button("管理 Finder 扩展") {
                 FIFinderSyncController.showExtensionManagementInterface()
             }
@@ -41,6 +45,9 @@ struct ContentView: View {
         .padding(24)
         .frame(minWidth: 620, minHeight: 360)
         .onAppear(perform: refresh)
+        .onReceive(Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()) { _ in
+            transferPending = (try? ProbeConfiguration.transferIsPending()) ?? false
+        }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { refresh() }
         }
@@ -52,8 +59,17 @@ struct ContentView: View {
         }
     }
 
+    private var extensionStatus: String {
+        guard let extensionEnabled else { return "请先安装到“应用程序”后检测" }
+        return extensionEnabled ? "已启用" : "未启用"
+    }
+
     private func refresh() {
-        extensionEnabled = FIFinderSyncController.isExtensionEnabled
+        // On the tested system, the native helper reports false for /private/tmp builds.
+        // Do not turn an unsupported run location into a claim that the user disabled it.
+        let installed = Bundle.main.bundleURL.resolvingSymlinksInPath().path.hasPrefix("/Applications/")
+        extensionEnabled = installed ? FIFinderSyncController.isExtensionEnabled : nil
+        transferPending = (try? ProbeConfiguration.transferIsPending()) ?? false
         do { applicationStatus = try ProbeConfiguration.application().lastPathComponent }
         catch VSCodeSelection.Failure.notFound { applicationStatus = "未发现正式版" }
         catch VSCodeSelection.Failure.reselect { applicationStatus = "指定副本失效，请重新选择" }
@@ -70,11 +86,7 @@ struct ContentView: View {
             guard Bundle(url: url)?.bundleIdentifier == "com.microsoft.VSCode" else {
                 throw VSCodeSelection.Failure.reselect
             }
-            let bookmark = try url.bookmarkData(options: [.withSecurityScope, .securityScopeAllowOnlyReadAccess],
-                                                includingResourceValuesForKeys: nil, relativeTo: nil)
-            let defaults = try ProbeConfiguration.defaults()
-            defaults.set(bookmark, forKey: ProbeConfiguration.bookmarkKey)
-            defaults.set(url.path, forKey: ProbeConfiguration.pathKey)
+            try ProbeConfiguration.selectApplication(url)
             failure = nil
             refresh()
         } catch { failure = String(describing: error) }

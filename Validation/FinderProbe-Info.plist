@@ -3,6 +3,7 @@
 <plist version="1.0"><dict>
 <key>ProbeAppGroup</key><string>$(TeamIdentifierPrefix)com.point.OpenWithX.validation</string>
 <key>NSExtension</key><dict>
+<key>NSExtensionAttributes</key><dict/>
 <key>NSExtensionPointIdentifier</key><string>com.apple.FinderSync</string>
 <key>NSExtensionPrincipalClass</key><string>FinderSync</string>
 </dict>
