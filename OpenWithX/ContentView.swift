@@ -6,8 +6,25 @@ import UniformTypeIdentifiers
 struct ContentView: View {
     @State private var extensionEnabled: Bool?
     @State private var transferPending = false
+    @State private var authorizationStatus = "未检测"
     @State private var applicationStatus = "未检测"
-    @State private var failure: String?
+    private struct FailurePresentation {
+        let message: String
+        let detail: String
+
+        init(message: String, detail: String) {
+            self.message = message
+            self.detail = detail
+        }
+
+        init(error: Error) {
+            message = (error as? VSCodeSelection.Failure)?.errorDescription
+                ?? "打开或配置失败，请检查 VS Code 选择及系统权限。"
+            detail = String(describing: error)
+        }
+    }
+
+    @State private var failure: FailurePresentation?
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
@@ -23,10 +40,11 @@ struct ContentView: View {
                         try ProbeConfiguration.clearSelection()
                         failure = nil
                         refresh()
-                    } catch { failure = error.localizedDescription }
+                    } catch { failure = FailurePresentation(error: error) }
                 }
             }
             Text("系统扩展状态：\(extensionStatus)")
+            Text("授权状态：\(authorizationStatus)")
             if transferPending {
                 Text("正在等待扩展保存 VS Code 授权。请保持此窗口打开；启用扩展后若仍在等待，请重新选择 VS Code。")
             }
@@ -36,9 +54,9 @@ struct ContentView: View {
             Text("Finder 菜单与打开链路：尚未记录实测通过。系统已启用不代表实际菜单可用。")
             Text("无需选择项目目录。仅验证本地单个普通文件夹；云盘、网络卷和特殊位置尚未验证。")
             if let failure {
-                Text("打开或配置失败，请检查 VS Code 选择及系统权限。").foregroundStyle(.red)
+                Text(failure.message).foregroundStyle(.red)
                 DisclosureGroup("原始错误（可能含本机路径）") {
-                    Text(failure).textSelection(.enabled)
+                    Text(failure.detail).textSelection(.enabled)
                 }
             }
         }
@@ -46,15 +64,19 @@ struct ContentView: View {
         .frame(minWidth: 620, minHeight: 360)
         .onAppear(perform: refresh)
         .onReceive(Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()) { _ in
-            transferPending = (try? ProbeConfiguration.transferIsPending()) ?? false
+            refreshAuthorization()
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { refresh() }
         }
         .onOpenURL { url in
             guard url.scheme == "openwithx-probe", url.host == "failure" else { return }
-            failure = URLComponents(url: url, resolvingAgainstBaseURL: false)?
-                .queryItems?.first(where: { $0.name == "detail" })?.value ?? "未知打开失败"
+            let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+            failure = FailurePresentation(
+                message: items?.first(where: { $0.name == "message" })?.value
+                    ?? "打开失败，请检查 VS Code 选择及系统权限。",
+                detail: items?.first(where: { $0.name == "detail" })?.value ?? "未知打开失败"
+            )
             NSApp.activate(ignoringOtherApps: true)
         }
     }
@@ -69,11 +91,31 @@ struct ContentView: View {
         // Do not turn an unsupported run location into a claim that the user disabled it.
         let installed = Bundle.main.bundleURL.resolvingSymlinksInPath().path.hasPrefix("/Applications/")
         extensionEnabled = installed ? FIFinderSyncController.isExtensionEnabled : nil
-        transferPending = (try? ProbeConfiguration.transferIsPending()) ?? false
+        refreshAuthorization()
         do { applicationStatus = try ProbeConfiguration.application().lastPathComponent }
         catch VSCodeSelection.Failure.notFound { applicationStatus = "未发现正式版" }
         catch VSCodeSelection.Failure.reselect { applicationStatus = "指定副本失效，请重新选择" }
-        catch { applicationStatus = "共享配置不可用"; failure = error.localizedDescription }
+        catch { applicationStatus = "共享配置不可用"; failure = FailurePresentation(error: error) }
+    }
+
+    private func refreshAuthorization() {
+        do {
+            switch try ProbeConfiguration.authorizationStatus() {
+            case .automatic:
+                transferPending = false
+                authorizationStatus = "自动发现（未手动选择）"
+            case .pending:
+                transferPending = true
+                authorizationStatus = "等待扩展保存授权"
+            case .synchronized:
+                transferPending = false
+                authorizationStatus = "授权已同步（不代表打开成功）"
+            }
+        } catch {
+            transferPending = false
+            authorizationStatus = "读取失败，请重新选择 VS Code"
+            failure = FailurePresentation(error: error)
+        }
     }
 
     private func selectApplication() {
@@ -89,6 +131,6 @@ struct ContentView: View {
             try ProbeConfiguration.selectApplication(url)
             failure = nil
             refresh()
-        } catch { failure = String(describing: error) }
+        } catch { failure = FailurePresentation(error: error) }
     }
 }

@@ -74,6 +74,9 @@ final class FinderSync: FIFinderSync {
         }
         do {
             let application = try ProbeConfiguration.extensionApplication()
+            try VSCodeSelection.checkRunningApplications(for: application, runningApplications:
+                NSRunningApplication.runningApplications(withBundleIdentifier: "com.microsoft.VSCode")
+                    .compactMap(\.bundleURL))
             let configuration = NSWorkspace.OpenConfiguration()
             configuration.activates = true
             configuration.allowsRunningApplicationSubstitution = false
@@ -90,7 +93,11 @@ final class FinderSync: FIFinderSync {
         var url = URLComponents()
         url.scheme = "openwithx-probe"
         url.host = "failure"
-        url.queryItems = [URLQueryItem(name: "detail", value: String(describing: error))]
+        url.queryItems = [
+            URLQueryItem(name: "detail", value: String(describing: error)),
+            URLQueryItem(name: "message", value: (error as? VSCodeSelection.Failure)?.errorDescription
+                ?? "打开失败，请检查 VS Code 选择及系统权限。")
+        ]
         guard let failureURL = url.url else { return }
         // Resolve the containing app, never an arbitrary application registered for the scheme.
         let host = Bundle.main.bundleURL.deletingLastPathComponent()

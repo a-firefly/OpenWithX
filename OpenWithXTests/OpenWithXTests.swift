@@ -71,4 +71,15 @@ struct OpenWithXTests {
             try VSCodeSelection.launchURL(for: chosen, registeredApplications: [other])
         }
     }
+    @Test func selectedCopyMustNotBeSilentlyReplacedByAnotherRunningCopy() throws {
+        let selected = URL(fileURLWithPath: "/Users/test/Selected Code.app", isDirectory: true)
+        let other = URL(fileURLWithPath: "/Applications/Visual Studio Code.app", isDirectory: true)
+        try VSCodeSelection.checkRunningApplications(for: selected, runningApplications: [])
+        try VSCodeSelection.checkRunningApplications(for: selected, runningApplications: [selected])
+        try VSCodeSelection.checkRunningApplications(for: selected, runningApplications: [other, selected])
+        #expect(throws: VSCodeSelection.Failure.anotherCopyIsRunning) {
+            try VSCodeSelection.checkRunningApplications(for: selected, runningApplications: [other])
+        }
+    }
+
 }

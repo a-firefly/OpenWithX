@@ -80,14 +80,18 @@ nonisolated enum ProbeConfiguration {
                                                                       userInfo: nil, deliverImmediately: true)
     }
 
-    @MainActor static func transferIsPending() throws -> Bool {
-        guard let selection = try manualSelection() else { return false }
+    enum AuthorizationStatus {
+        case automatic, pending, synchronized
+    }
+
+    @MainActor static func authorizationStatus() throws -> AuthorizationStatus {
+        guard let selection = try manualSelection() else { return .automatic }
         let acknowledged = try defaults().string(forKey: receiptKey) == selection.id.uuidString
         if acknowledged {
             activeTransferURL?.stopAccessingSecurityScopedResource()
             activeTransferURL = nil
         }
-        return !acknowledged
+        return acknowledged ? .synchronized : .pending
     }
 
     // Called on extension startup and on change notification, while the sender is alive.

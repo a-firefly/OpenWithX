@@ -7,3 +7,5 @@ OpenWithX 使用原生 NSWorkspace 发现正式版 VS Code，并通过 VS Code �
 VS Code 协议依据：[官方 URL 打开说明](https://code.visualstudio.com/docs/configure/command-line#_opening-vs-code-with-urls)、[官方协议处理实现](https://github.com/microsoft/vscode/blob/main/src/vs/code/electron-main/app.ts)（`windowId=_blank`）。
 
 参考：[NSWorkspace 应用发现](https://developer.apple.com/documentation/appkit/nsworkspace/urlforapplication(withbundleidentifier:))、[打开 URL](https://developer.apple.com/documentation/appkit/nsworkspace/open(_:withapplicationat:configuration:completionhandler:))。
+
+2026-10-22 副本回归补充：VS Code 可能将第二实例转交已有实例后退出。所选副本未运行而另一副本正在运行时，先返回明确的副本冲突与重选提示，避免无响应或跨副本替代；所选副本已运行时允许交付。不强制退出其他副本，不通过新进程或命令行绕过实例策略。授权同步回执与打开成功分开显示。

@@ -24,9 +24,26 @@ nonisolated enum LocalVolumeCoverage {
 }
 
 nonisolated enum VSCodeSelection {
-    enum Failure: Error, Equatable {
+    enum Failure: Error, Equatable, LocalizedError {
         case notFound
         case reselect
+        case anotherCopyIsRunning
+
+        var errorDescription: String? {
+            switch self {
+            case .notFound: "未发现正式版 VS Code，请手动选择应用。"
+            case .reselect: "所选 VS Code 副本或授权已失效，请重新选择。"
+            case .anotherCopyIsRunning:
+                "另一个 VS Code 副本正在运行，无法可靠地将文件夹交给所选副本。请手动选择正在使用的副本，或自行退出其他副本后重试。"
+            }
+        }
+    }
+
+    static func checkRunningApplications(for selected: URL, runningApplications: [URL]) throws {
+        guard !runningApplications.isEmpty else { return }
+        guard runningApplications.contains(where: {
+            $0.standardizedFileURL.path == selected.standardizedFileURL.path
+        }) else { throw Failure.anotherCopyIsRunning }
     }
 
     static func launchURL(for selected: URL, registeredApplications: [URL]) throws -> URL {
