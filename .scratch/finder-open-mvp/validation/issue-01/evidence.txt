@@ -1,0 +1,61 @@
+Timestamp               Ty Process[PID:TID]
+2026-10-22 12:26:10.407 Df FinderProbe[77931:2766b3] [com.point.OpenWithX.FinderProbe:validation] Registered local volume count: 2
+2026-10-22 12:26:10.408 Df FinderProbe[77931:2766b3] [com.point.OpenWithX.FinderProbe:validation] Probe extension started; scope registration is not an access grant
+2026-10-22 12:27:28.808 E  FinderProbe[77931:276d86] [com.point.OpenWithX.FinderProbe:validation] Open request failed; attempting host handoff
+2026-10-22 12:27:50.761 Df FinderProbe[77964:27703c] [com.point.OpenWithX.FinderProbe:validation] Registered local volume count: 2
+2026-10-22 12:27:50.762 Df FinderProbe[77964:27703c] [com.point.OpenWithX.FinderProbe:validation] Probe extension started; scope registration is not an access grant
+2026-10-22 12:28:32.260 E  FinderProbe[77931:276d86] [com.point.OpenWithX.FinderProbe:validation] Open request failed; attempting host handoff
+2026-10-22 12:29:35.314 Df FinderProbe[78077:27782c] [com.point.OpenWithX.FinderProbe:validation] Registered local volume count: 2
+2026-10-22 12:29:35.314 Df FinderProbe[78077:27782c] [com.point.OpenWithX.FinderProbe:validation] Probe extension started; scope registration is not an access grant
+2026-10-22 12:29:36.138 Df FinderProbe[78087:27789d] [com.point.OpenWithX.FinderProbe:validation] Registered local volume count: 2
+2026-10-22 12:29:36.138 Df FinderProbe[78087:27789d] [com.point.OpenWithX.FinderProbe:validation] Probe extension started; scope registration is not an access grant
+2026-10-22 12:29:36.559 Df OpenWithX[78086:277897] [com.point.OpenWithX.FinderProbe:validation] Manual application: stale=false, scopedAccess=true, matchesVSCode=true, exists=true
+2026-10-22 12:29:36.562 Df OpenWithX[78086:277897] [com.point.OpenWithX.FinderProbe:validation] Manual application: stale=false, scopedAccess=true, matchesVSCode=true, exists=true
+2026-10-22 12:29:36.624 E  OpenWithX[78086:2778b3] [com.point.OpenWithX.FinderProbe:validation] Manual application resolution failed: domain=NSCocoaErrorDomain, code=259
+2026-10-22 12:31:53.956 E  FinderProbe[78087:277d8d] [com.point.OpenWithX.FinderProbe:validation] Manual application resolution failed: domain=NSCocoaErrorDomain, code=259
+2026-10-22 12:31:53.956 E  FinderProbe[78087:277d8d] [com.point.OpenWithX.FinderProbe:validation] Open request failed; attempting host handoff
+2026-10-22 12:31:54.274 Df OpenWithX[78120:27817b] [com.point.OpenWithX.FinderProbe:validation] Manual application: stale=false, scopedAccess=true, matchesVSCode=true, exists=true
+2026-10-22 12:31:54.293 Df OpenWithX[78120:27817b] [com.point.OpenWithX.FinderProbe:validation] Manual application: stale=false, scopedAccess=true, matchesVSCode=true, exists=true
+
+Observed UI, 2026-10-22 Asia/Shanghai:
+System Settings > General > Login Items & Extensions > File Providers:
+  OpenWithX on; WPS Office on; 微信输入法 on.
+Host API status after refresh: 系统扩展状态：未启用.
+Finder single ordinary folder: 使用 VS Code 打开 [executePlugInCommand:] at top level.
+Host raw error for automatic discovery:
+  NSCocoaErrorDomain Code=256
+  NSURL=file:///Applications/Visual%20Studio%20Code.app/
+  NSUnderlyingError: NSOSStatusErrorDomain Code=-54, permErr: permissions error (on file open)
+Host raw error for manually selected application: reselect.
+
+Signed Debug bundle and embedded extension:
+  TeamIdentifier=RR2LFYZJUK, runtime flag enabled
+  com.apple.security.app-sandbox=true
+  com.apple.security.files.user-selected.read-only=true
+  com.apple.security.files.bookmarks.app-scope=true
+  com.apple.security.application-groups=[RR2LFYZJUK.com.point.OpenWithX.validation]
+  com.apple.security.get-task-allow=true
+
+TDD red observations:
+  red1: cannot find TargetFolderSelection in scope; TEST FAILED.
+  red2: cannot find LocalVolumeCoverage in scope; TEST FAILED.
+  red3: cannot find VSCodeSelection in scope; TEST FAILED.
+Each red was followed by its implementation and a passing unit-test run before adding the next test.
+
+Final signed Debug full suite:
+  2026-10-22 12:32:42 +0800: TEST SUCCEEDED.
+  OpenWithXTests: 3 passed.
+  OpenWithXUITests: 2 passed, 0 failures.
+
+Release build:
+  xcodebuild -project OpenWithX.xcodeproj -scheme OpenWithX -configuration Release
+    -derivedDataPath /tmp/OpenWithX-issue01-release build
+  BUILD SUCCEEDED (macOS 26.7 host, macOS 27.0 SDK).
+
+Release artifact verification:
+  Host LSMinimumSystemVersion: 26.0.
+  Embedded extension LSMinimumSystemVersion: 26.0.
+  Host executable architecture: arm64.
+  codesign --verify --deep --strict: exit 0 outside agent execution sandbox.
+  Initial restricted verification reported CSSMERR_TP_NOT_TRUSTED;
+  unrestricted retry passed. No product sandbox or trust settings were changed.

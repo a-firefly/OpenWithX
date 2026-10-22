@@ -6,7 +6,18 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A10000000000000000000008 = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (A10000000000000000000001, ); name = "Embed App Extensions"; runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 = {isa = PBXBuildFile; fileRef = A10000000000000000000002; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A10000000000000000000003 = {isa = PBXBuildFile; fileRef = A10000000000000000000004; };
+		A10000000000000000000005 = {isa = PBXBuildFile; fileRef = A10000000000000000000006; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
+		A1000000000000000000000D = {isa = PBXContainerItemProxy; containerPortal = D7F15C3E30889F08008AE1DB; proxyType = 1; remoteGlobalIDString = A1000000000000000000000B; remoteInfo = FinderProbe; };
 		D7F15C5630889F09008AE1DB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D7F15C3E30889F08008AE1DB /* Project object */;
@@ -24,12 +35,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A10000000000000000000002 = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; path = FinderProbe.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWithX/ProbePolicy.swift; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000006 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWithX/ProbeConfiguration.swift; sourceTree = SOURCE_ROOT; };
 		D7F15C4630889F08008AE1DB /* OpenWithX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenWithX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F15C5530889F09008AE1DB /* OpenWithXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenWithXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F15C5F30889F09008AE1DB /* OpenWithXUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenWithXUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		A10000000000000000000007 = {isa = PBXFileSystemSynchronizedRootGroup; path = FinderProbe; sourceTree = "<group>"; };
 		D7F15C4830889F08008AE1DB /* OpenWithX */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = OpenWithX;
@@ -48,6 +63,7 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A1000000000000000000000A = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 		D7F15C4330889F08008AE1DB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
@@ -70,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				D7F15C4830889F08008AE1DB /* OpenWithX */,
+				A10000000000000000000007 /* FinderProbe */,
 				D7F15C5830889F09008AE1DB /* OpenWithXTests */,
 				D7F15C6230889F09008AE1DB /* OpenWithXUITests */,
 				D7F15C4730889F08008AE1DB /* Products */,
@@ -80,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				D7F15C4630889F08008AE1DB /* OpenWithX.app */,
+				A10000000000000000000002 /* FinderProbe.appex */,
 				D7F15C5530889F09008AE1DB /* OpenWithXTests.xctest */,
 				D7F15C5F30889F09008AE1DB /* OpenWithXUITests.xctest */,
 			);
@@ -89,6 +107,18 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A1000000000000000000000B = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1000000000000000000000C;
+			buildPhases = (A10000000000000000000009, A1000000000000000000000A, );
+			buildRules = ();
+			dependencies = ();
+			fileSystemSynchronizedGroups = (A10000000000000000000007, );
+			name = FinderProbe;
+			productName = FinderProbe;
+			productReference = A10000000000000000000002;
+			productType = "com.apple.product-type.app-extension";
+		};
 		D7F15C4530889F08008AE1DB /* OpenWithX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D7F15C6730889F09008AE1DB /* Build configuration list for PBXNativeTarget "OpenWithX" */;
@@ -96,12 +126,14 @@
 				D7F15C4230889F08008AE1DB /* Sources */,
 				D7F15C4330889F08008AE1DB /* Frameworks */,
 				D7F15C4430889F08008AE1DB /* Resources */,
+				A10000000000000000000008 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			fileSystemSynchronizedGroups = (
 				D7F15C4830889F08008AE1DB /* OpenWithX */,
 			);
+			dependencies = (A1000000000000000000000E, );
 			name = OpenWithX;
 			productName = OpenWithX;
 			productReference = D7F15C4630889F08008AE1DB /* OpenWithX.app */;
@@ -187,6 +219,7 @@
 			projectRoot = "";
 			targets = (
 				D7F15C4530889F08008AE1DB /* OpenWithX */,
+				A1000000000000000000000B /* FinderProbe */,
 				D7F15C5430889F09008AE1DB /* OpenWithXTests */,
 				D7F15C5E30889F09008AE1DB /* OpenWithXUITests */,
 			);
@@ -212,6 +245,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A10000000000000000000009 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000003, A10000000000000000000005, ); runOnlyForDeploymentPostprocessing = 0; };
 		D7F15C4230889F08008AE1DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
@@ -230,6 +264,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A1000000000000000000000E = {isa = PBXTargetDependency; target = A1000000000000000000000B; targetProxy = A1000000000000000000000D; };
 		D7F15C5730889F09008AE1DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D7F15C4530889F08008AE1DB /* OpenWithX */;
@@ -243,6 +278,47 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		A1000000000000000000000F = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Validation/Probe.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Validation/FinderProbe-Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.point.OpenWithX.FinderProbe;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A10000000000000000000010 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Validation/Probe.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Validation/FinderProbe-Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.point.OpenWithX.FinderProbe;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+
 		D7F15C6530889F09008AE1DB /* Debug configuration for PBXProject "OpenWithX" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -297,11 +373,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.7;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				ARCHS = arm64;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -355,10 +432,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.7;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				ARCHS = arm64;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -367,6 +445,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Validation/Probe.entitlements;
+				INFOPLIST_FILE = Validation/Host-Info.plist;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -399,6 +479,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Validation/Probe.entitlements;
+				INFOPLIST_FILE = Validation/Host-Info.plist;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -435,7 +517,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RR2LFYZJUK;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.7;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.point.OpenWithXTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -456,7 +538,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RR2LFYZJUK;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.7;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.point.OpenWithXTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -510,6 +592,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A1000000000000000000000C = {isa = XCConfigurationList; buildConfigurations = (A1000000000000000000000F, A10000000000000000000010, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 		D7F15C4130889F08008AE1DB /* Build configuration list for PBXProject "OpenWithX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
