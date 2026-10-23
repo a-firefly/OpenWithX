@@ -103,7 +103,7 @@ nonisolated struct OpenFailure: Identifiable {
     func recovery(languages: [String]) -> String {
         switch reason {
         case .accessDenied: AppText.text("Check access to the target folder and selected VS Code, and the relevant system privacy settings. Reselect VS Code if its authorization expired, then retry in Finder.", "请检查目标文件夹和所选 VS Code 的实际访问权限及系统隐私设置；应用授权失效时重新选择 VS Code，解决后在 Finder 中重试。", languages: languages)
-        case .applicationMissing: AppText.text("Detect again, select the stable version of VS Code, or use the official download link below.", "请重新检测、手动选择正式版 VS Code，或主动访问下方官方网站下载。", languages: languages)
+        case .applicationMissing: AppText.text("Detect again, select the stable version of VS Code, or use the official download link.", "请重新检测、手动选择正式版 VS Code，或主动访问官方网站下载。", languages: languages)
         case .applicationInvalid: AppText.text("Select the stable version of VS Code again. Another copy will not be substituted automatically.", "请重新选择正式版 VS Code；不会自动切换到其他副本。", languages: languages)
         case .copyConflict: AppText.text("Select the copy you are using, or quit the other copy yourself and retry in Finder.", "请重新选择正在使用的副本，或自行退出其他副本后在 Finder 中重试。", languages: languages)
         case .targetUnavailable: AppText.text("Check in Finder that the target exists and its disk is connected, then retry from its current location.", "请在 Finder 中检查目标是否存在及磁盘是否已连接，再从当前位置重试。", languages: languages)

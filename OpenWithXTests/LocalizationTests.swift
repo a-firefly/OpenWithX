@@ -17,4 +17,10 @@ struct LocalizationTests {
         #expect(failure.recovery(languages: ["fr", "zh-Hans"]) == "Select the stable version of VS Code again. Another copy will not be substituted automatically.")
     }
 
+    @Test func nativeInterfaceUsesTheSameSupportedLanguageAsAppText() {
+        #expect(AppText.supportedLanguage(languages: ["fr-FR", "zh-Hans"]) == "en")
+        #expect(AppText.supportedLanguage(languages: ["zh-CN", "en"]) == "zh-Hans")
+        #expect(AppText.supportedLanguage(languages: ["zh-Hant"]) == "en")
+    }
+
 }
