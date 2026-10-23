@@ -42,3 +42,15 @@ f76d2d17bbc874a62f478b62e8ef25713de9e74829fd42bff69e6caf90995922  OpenWithX-self
 本轮公证安装版在正常系统重启后、无需主应用的启动已由用户反馈通过；强制 TERM 后的扩展自动恢复尚未确认，完整 Issue 07 回归（失效副本、外接盘变化、错误恢复、中英文与回退等）未全部完成。用户决定停止后续验证与实现，这些项目不再推进，也不记为通过。既有 Issue 02–06 的证据保留，未伪称在新签名安装包全部重跑。未重置用户偏好或清理 TCC，未撤销证书，未修改产品沙盒或业务代码，也没有模拟账号到期或更改系统时间。
 
 会员自然到期后的既有版本使用依据 Apple 的 Developer ID / 安全时间戳规则，不冒充未来到期实测；证书撤销及未来系统兼容性仍有边界。使用与手动重装说明见 [长期自用安装](../../../../docs/delivery/self-use.md)。
+
+## 2026-10-23 — 加入 App Logo 后重新交付
+
+按用户要求，使用已有 AppIcon 资源重新执行相同的 Developer ID 签名、公证及附加票据流程，产物位于 `artifacts/self-use/2026-10-23-logo-release/`。确认最终应用包含 `AppIcon.icns`，Info.plist 配置 `CFBundleIconName=AppIcon`。11 项打包工具测试通过；最终 ZIP 独立解压后和 `/Applications/OpenWithX.app` 安装副本均通过完整 `verify`（签名、权限、架构、票据和 Gatekeeper）。
+
+已替换 `/Applications/OpenWithX.app`，重新登记 Finder 扩展并启动新版；已替换 `docs/app/OpenWithX-self-use.zip` 和 `docs/app/SHA256SUMS`，校验通过：
+
+```text
+6b93a823aa5a9b0febc78cd1689b94ce303e7c09ab28e46150873613b7a53572  OpenWithX-self-use.zip
+```
+
+旧安装备份为上述产物目录中的 `previous-installed-app.zip`，旧交付 ZIP 和校验值保存为 `previous-OpenWithX-self-use.zip` 与 `previous-SHA256SUMS`。本次仅重新打包与替换，不表示新包已重跑 Finder 功能或重启人工验收，既有未完成边界和 Issue 收尾状态保持。
