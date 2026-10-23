@@ -37,7 +37,10 @@ struct OpenWithXTests {
         #expect(LocalVolumeCoverage.roots(from: []) == [])
     }
     @Test func invalidManualVSCodeSelectionDoesNotFallBackToDiscovery() throws {
-        let discovered = URL(fileURLWithPath: "/Applications/Visual Studio Code.app")
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        let discovered = root.appendingPathComponent("Code.app")
+        defer { try? FileManager.default.removeItem(at: root) }
+        try TestApplication.create(at: discovered)
         #expect(try VSCodeSelection.resolve(bookmark: nil, automaticallyDiscoveredURL: discovered) == discovered)
         #expect(throws: VSCodeSelection.Failure.reselect) {
             try VSCodeSelection.resolve(bookmark: Data([0, 1, 2]), automaticallyDiscoveredURL: discovered)
@@ -46,16 +49,27 @@ struct OpenWithXTests {
             try VSCodeSelection.resolve(bookmark: nil, automaticallyDiscoveredURL: nil)
         }
     }
+    @Test func discoveryRejectsUnavailableOrUnsupportedApplications() throws {
+        #expect(throws: VSCodeSelection.Failure.notFound) {
+            try VSCodeSelection.resolve(bookmark: nil, automaticallyDiscoveredURL:
+                URL(fileURLWithPath: "/missing/Visual Studio Code.app"))
+        }
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: root) }
+        for identifier in ["com.microsoft.VSCodeInsiders", "com.example.Editor"] {
+            let application = root.appendingPathComponent(identifier + ".app")
+            try TestApplication.create(at: application, identifier: identifier)
+            #expect(throws: VSCodeSelection.Failure.notFound) {
+                try VSCodeSelection.resolve(bookmark: nil, automaticallyDiscoveredURL: application)
+            }
+        }
+    }
+
     @Test func transferredApplicationGetsARecipientOwnedBookmark() throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let application = root.appendingPathComponent("Selected Code.app", isDirectory: true)
-        let contents = application.appendingPathComponent("Contents")
-        try FileManager.default.createDirectory(at: contents, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
-        let info = try PropertyListSerialization.data(
-            fromPropertyList: ["CFBundleIdentifier": "com.microsoft.VSCode"], format: .xml, options: 0
-        )
-        try info.write(to: contents.appendingPathComponent("Info.plist"))
+        try TestApplication.create(at: application)
         let transfer = try VSCodeSelection.transfer(application)
         let recipientBookmark = try VSCodeSelection.adopt(transfer, originalPath: application.path)
         #expect(try VSCodeSelection.resolve(bookmark: recipientBookmark, automaticallyDiscoveredURL: nil) == application)

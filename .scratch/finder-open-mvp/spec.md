@@ -1,6 +1,6 @@
 # OpenWithX MVP 规格
 
-状态：需求决策已确认。issue 01 已按用户调整后的核心可行性验收范围关闭；OpenWithX 可识别访问拒绝时的提示与恢复验证移交 issue 05。issue 02 已实现本地目标文件夹正式打开入口，10 个逻辑测试、2 个现有 UI 测试、Release 构建及 Finder 实机回归通过，两路代码审查通过，任务已关闭，详见 [issue 02 验证记录](validation/issue-02/report.md)。issue 03 已按本轮用户调整的验收范围关闭，生命周期逻辑及冷启动验证见 [issue 03 验证记录](validation/issue-03/report.md)；外部存储真实挂载变化跳过、系统重启实测豁免，不记为已实测通过。手动副本完整配置、错误恢复与请求合并、首次配置及完整本地化、公开交付继续由 issue 04–07 跟进。可用性承诺仅限当前用户已验证环境，干净权限环境验收已取消，既有 TCC 授权影响未排除；详见 [issue 01 后续验证](validation/issue-01/followup.md)。
+状态：需求决策已确认。issue 01 已按用户调整后的核心可行性验收范围关闭；OpenWithX 可识别访问拒绝时的提示与恢复验证移交 issue 05。issue 02 已实现本地目标文件夹正式打开入口，10 个逻辑测试、2 个现有 UI 测试、Release 构建及 Finder 实机回归通过，两路代码审查通过，任务已关闭，详见 [issue 02 验证记录](validation/issue-02/report.md)。issue 03 已按本轮用户调整的验收范围关闭，生命周期逻辑及冷启动验证见 [issue 03 验证记录](validation/issue-03/report.md)；外部存储真实挂载变化跳过、系统重启实测豁免，不记为已实测通过。issue 04 已实现正式版发现、手动选择、持久授权和官方下载入口，并实测跨进程同步与主应用退出后的扩展冷启动打开；系统重启后的手动授权恢复待人工验收，详见 [issue 04 验证记录](validation/issue-04/report.md)。错误恢复与请求合并、首次配置及完整本地化、公开交付继续由 issue 05–07 跟进。可用性承诺仅限当前用户已验证环境，干净权限环境验收已取消，既有 TCC 授权影响未排除；详见 [issue 01 后续验证](validation/issue-01/followup.md)。
 
 ## 版本验收补充（2026-10-22）
 

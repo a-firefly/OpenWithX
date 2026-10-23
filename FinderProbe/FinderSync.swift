@@ -27,7 +27,7 @@ final class FinderSync: FIFinderSync {
 
     private func receiveSelection() {
         do {
-            try ProbeConfiguration.receiveSelection()
+            try ProbeConfiguration.shared.receiveSelection()
             logger.notice("Application selection synchronized using recipient-owned authorization")
         } catch {
             // A disabled extension may miss the sender's transfer window. Never auto-fallback.

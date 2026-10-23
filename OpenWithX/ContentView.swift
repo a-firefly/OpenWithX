@@ -37,12 +37,14 @@ struct ContentView: View {
                 Button("手动选择正式版 VS Code", action: selectApplication)
                 Button("恢复自动发现") {
                     do {
-                        try ProbeConfiguration.clearSelection()
+                        try ProbeConfiguration.shared.clearSelection()
                         failure = nil
                         refresh()
                     } catch { failure = FailurePresentation(error: error) }
                 }
             }
+            Link("下载正式版 VS Code（官方网站）", destination: URL(string: "https://code.visualstudio.com/download")!)
+            Text("未手动选择时使用系统发现的正式版；手动选择后不会自动切换副本。")
             Text("系统扩展状态：\(extensionStatus)")
             Text("授权状态：\(authorizationStatus)")
             if transferPending {
@@ -92,7 +94,7 @@ struct ContentView: View {
         let installed = Bundle.main.bundleURL.resolvingSymlinksInPath().path.hasPrefix("/Applications/")
         extensionEnabled = installed ? FIFinderSyncController.isExtensionEnabled : nil
         refreshAuthorization()
-        do { applicationStatus = try ProbeConfiguration.application().lastPathComponent }
+        do { applicationStatus = try ProbeConfiguration.shared.application().path }
         catch VSCodeSelection.Failure.notFound { applicationStatus = "未发现正式版" }
         catch VSCodeSelection.Failure.reselect { applicationStatus = "指定副本失效，请重新选择" }
         catch { applicationStatus = "共享配置不可用"; failure = FailurePresentation(error: error) }
@@ -100,7 +102,7 @@ struct ContentView: View {
 
     private func refreshAuthorization() {
         do {
-            switch try ProbeConfiguration.authorizationStatus() {
+            switch try ProbeConfiguration.shared.authorizationStatus() {
             case .automatic:
                 transferPending = false
                 authorizationStatus = "自动发现（未手动选择）"
@@ -128,7 +130,7 @@ struct ContentView: View {
             guard Bundle(url: url)?.bundleIdentifier == "com.microsoft.VSCode" else {
                 throw VSCodeSelection.Failure.reselect
             }
-            try ProbeConfiguration.selectApplication(url)
+            try ProbeConfiguration.shared.selectApplication(url)
             failure = nil
             refresh()
         } catch { failure = FailurePresentation(error: error) }

@@ -1,0 +1,9 @@
+2026-10-23 Asia/Shanghai
+2026-10-23 09:49:28.089 Df FinderProbe[58420:955c9] [com.point.OpenWithX.FinderProbe:finder] Application selection synchronized using recipient-owned authorization
+2026-10-23 09:49:28.094 Df FinderProbe[58407:95411] [com.point.OpenWithX.FinderProbe:finder] Application selection synchronized using recipient-owned authorization
+2026-10-23 09:52:14.232 Df FinderProbe[58493:961f8] [com.point.OpenWithX.FinderProbe:finder] Registered local volume count: 2
+2026-10-23 09:52:14.235 Df FinderProbe[58493:961f8] [com.point.OpenWithX.FinderProbe:finder] Application selection synchronized using recipient-owned authorization
+2026-10-23 09:52:14.235 Df FinderProbe[58493:961f8] [com.point.OpenWithX.FinderProbe:finder] Finder extension started; scope registration is not an access grant
+2026-10-23 09:52:28.215 Df FinderProbe[58493:962f2] [com.point.OpenWithX.FinderProbe:finder] NSWorkspace accepted the open request; editor loading is not verified
+
+09:52 请求后 pgrep -x OpenWithX: no process; pgrep -x FinderProbe: 58493

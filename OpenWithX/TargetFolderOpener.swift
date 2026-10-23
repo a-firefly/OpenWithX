@@ -8,7 +8,7 @@ struct TargetFolderOpener {
     private let submit: @MainActor ([URL], URL, NSWorkspace.OpenConfiguration, @escaping (Error?) -> Void) -> Void
 
     init(
-        application: @escaping @MainActor () throws -> URL = { try ProbeConfiguration.extensionApplication() },
+        application: @escaping @MainActor () throws -> URL = { try ProbeConfiguration.shared.extensionApplication() },
         runningApplications: @escaping @MainActor () -> [URL] = {
             NSRunningApplication.runningApplications(withBundleIdentifier: "com.microsoft.VSCode")
                 .compactMap(\.bundleURL)

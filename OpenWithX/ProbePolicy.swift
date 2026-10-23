@@ -76,7 +76,11 @@ nonisolated enum VSCodeSelection {
 
     static func resolve(bookmark: Data?, automaticallyDiscoveredURL: URL?) throws -> URL {
         guard let bookmark else {
-            guard let automaticallyDiscoveredURL else { throw Failure.notFound }
+            guard let automaticallyDiscoveredURL, automaticallyDiscoveredURL.isFileURL,
+                  Bundle(url: automaticallyDiscoveredURL)?.bundleIdentifier == "com.microsoft.VSCode",
+                  FileManager.default.fileExists(atPath: automaticallyDiscoveredURL.path) else {
+                throw Failure.notFound
+            }
             return automaticallyDiscoveredURL
         }
         do {
