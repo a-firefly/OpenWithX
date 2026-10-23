@@ -3,12 +3,20 @@ import Foundation
 // Finder callbacks and sandbox grants require real-system evidence in addition to policy tests.
 nonisolated enum TargetFolderSelection {
     static func target(in urls: [URL]) -> URL? {
-        guard urls.count == 1, let url = urls.first, url.isFileURL,
-              let values = try? url.resourceValues(forKeys: [
-                .isDirectoryKey, .isPackageKey, .isAliasFileKey, .isSymbolicLinkKey
-              ]), values.isDirectory == true, values.isPackage == false,
-              values.isAliasFile == false, values.isSymbolicLink == false else { return nil }
+        guard urls.count == 1, let url = urls.first,
+              (try? validate(url)) != nil else { return nil }
         return url
+    }
+
+    static func validate(_ url: URL) throws {
+        guard url.isFileURL else { throw CocoaError(.fileReadUnsupportedScheme) }
+        let values = try url.resourceValues(forKeys: [
+            .isDirectoryKey, .isPackageKey, .isAliasFileKey, .isSymbolicLinkKey
+        ])
+        guard values.isDirectory == true, values.isPackage == false,
+              values.isAliasFile == false, values.isSymbolicLink == false else {
+            throw CocoaError(.fileReadUnsupportedScheme)
+        }
     }
 }
 

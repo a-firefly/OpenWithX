@@ -9,3 +9,5 @@ VS Code 协议依据：[官方 URL 打开说明](https://code.visualstudio.com/d
 参考：[NSWorkspace 应用发现](https://developer.apple.com/documentation/appkit/nsworkspace/urlforapplication(withbundleidentifier:))、[打开 URL](https://developer.apple.com/documentation/appkit/nsworkspace/open(_:withapplicationat:configuration:completionhandler:))。
 
 2026-10-22 副本回归补充：VS Code 可能将第二实例转交已有实例后退出。所选副本未运行而另一副本正在运行时，先返回明确的副本冲突与重选提示，避免无响应或跨副本替代；所选副本已运行时允许交付。不强制退出其他副本，不通过新进程或命令行绕过实例策略。授权同步回执与打开成功分开显示。
+
+2026-10-23 失败恢复落地：扩展实例复用打开器，按标准化目标 URL 合并在途请求，系统返回后允许新请求。元数据检查保留原生错误；失败通过包含应用的显式 NSWorkspace URL 交接 UUID、原因及原始错误，唯一主窗口按内存队列集中展示并去重，原始错误默认折叠。不保存打开历史，交付关闭系统最近项目登记，不自动重试或上传。主应用退出后的失败唤起及修复后成功已实测；Finder 原生权限拒绝未触发，保留证据缺口，见 [issue 05 验证记录](../../.scratch/finder-open-mvp/validation/issue-05/report.md)。

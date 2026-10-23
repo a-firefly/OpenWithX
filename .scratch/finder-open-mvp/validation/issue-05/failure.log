@@ -1,0 +1,14 @@
+Timestamp               Ty Process[PID:TID]
+2026-10-23 10:13:28.902 Df FinderProbe[61756:9d08b] [com.point.OpenWithX.FinderProbe:finder] Registered local volume count: 2
+2026-10-23 10:13:28.906 Df FinderProbe[61756:9d08b] [com.point.OpenWithX.FinderProbe:finder] Application selection synchronized using recipient-owned authorization
+2026-10-23 10:13:28.906 Df FinderProbe[61756:9d08b] [com.point.OpenWithX.FinderProbe:finder] Finder extension started; scope registration is not an access grant
+2026-10-23 10:13:45.940 Df FinderProbe[61776:9d288] [com.point.OpenWithX.FinderProbe:finder] Registered local volume count: 2
+2026-10-23 10:13:45.940 Df FinderProbe[61775:9d283] [com.point.OpenWithX.FinderProbe:finder] Registered local volume count: 2
+2026-10-23 10:13:45.943 Df FinderProbe[61776:9d288] [com.point.OpenWithX.FinderProbe:finder] Application selection synchronized using recipient-owned authorization
+2026-10-23 10:13:45.943 Df FinderProbe[61776:9d288] [com.point.OpenWithX.FinderProbe:finder] Finder extension started; scope registration is not an access grant
+2026-10-23 10:13:45.944 Df FinderProbe[61775:9d283] [com.point.OpenWithX.FinderProbe:finder] Application selection synchronized using recipient-owned authorization
+2026-10-23 10:13:45.944 Df FinderProbe[61775:9d283] [com.point.OpenWithX.FinderProbe:finder] Finder extension started; scope registration is not an access grant
+2026-10-23 10:14:40.707 E  FinderProbe[61775:9d3e5] [com.point.OpenWithX.FinderProbe:finder] Open request failed; attempting host handoff
+2026-10-23 10:14:40.863 Df FinderProbe[61794:9d7ce] [com.point.OpenWithX.FinderProbe:finder] Registered local volume count: 2
+2026-10-23 10:14:40.867 Df FinderProbe[61794:9d7ce] [com.point.OpenWithX.FinderProbe:finder] Application selection synchronized using recipient-owned authorization
+2026-10-23 10:14:40.867 Df FinderProbe[61794:9d7ce] [com.point.OpenWithX.FinderProbe:finder] Finder extension started; scope registration is not an access grant

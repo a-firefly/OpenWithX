@@ -8,23 +8,9 @@ struct ContentView: View {
     @State private var transferPending = false
     @State private var authorizationStatus = "未检测"
     @State private var applicationStatus = "未检测"
-    private struct FailurePresentation {
-        let message: String
-        let detail: String
-
-        init(message: String, detail: String) {
-            self.message = message
-            self.detail = detail
-        }
-
-        init(error: Error) {
-            message = (error as? VSCodeSelection.Failure)?.errorDescription
-                ?? "打开或配置失败，请检查 VS Code 选择及系统权限。"
-            detail = String(describing: error)
-        }
-    }
-
-    @State private var failure: FailurePresentation?
+    @ObservedObject var failureInbox: OpenFailureInbox
+    @State private var configurationFailure: OpenFailure?
+    private var failure: OpenFailure? { failureInbox.current ?? configurationFailure }
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
@@ -38,9 +24,9 @@ struct ContentView: View {
                 Button("恢复自动发现") {
                     do {
                         try ProbeConfiguration.shared.clearSelection()
-                        failure = nil
+                        configurationFailure = nil
                         refresh()
-                    } catch { failure = FailurePresentation(error: error) }
+                    } catch { configurationFailure = OpenFailure(error: error) }
                 }
             }
             Link("下载正式版 VS Code（官方网站）", destination: URL(string: "https://code.visualstudio.com/download")!)
@@ -57,8 +43,14 @@ struct ContentView: View {
             Text("无需选择项目目录。支持本地单个普通文件夹；云盘、网络卷和特殊位置尚未验证。")
             if let failure {
                 Text(failure.message).foregroundStyle(.red)
+                Text(failure.recovery)
                 DisclosureGroup("原始错误（可能含本机路径）") {
                     Text(failure.detail).textSelection(.enabled)
+                }
+                .id(failure.id)
+                Button("关闭此提示") {
+                    if failureInbox.current != nil { failureInbox.dismiss() }
+                    else { configurationFailure = nil }
                 }
             }
         }
@@ -72,13 +64,8 @@ struct ContentView: View {
             if phase == .active { refresh() }
         }
         .onOpenURL { url in
-            guard url.scheme == "openwithx-probe", url.host == "failure" else { return }
-            let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
-            failure = FailurePresentation(
-                message: items?.first(where: { $0.name == "message" })?.value
-                    ?? "打开失败，请检查 VS Code 选择及系统权限。",
-                detail: items?.first(where: { $0.name == "detail" })?.value ?? "未知打开失败"
-            )
+            guard OpenFailure(handoffURL: url) != nil else { return }
+            failureInbox.receive(url)
             NSApp.activate(ignoringOtherApps: true)
         }
     }
@@ -97,7 +84,7 @@ struct ContentView: View {
         do { applicationStatus = try ProbeConfiguration.shared.application().path }
         catch VSCodeSelection.Failure.notFound { applicationStatus = "未发现正式版" }
         catch VSCodeSelection.Failure.reselect { applicationStatus = "指定副本失效，请重新选择" }
-        catch { applicationStatus = "共享配置不可用"; failure = FailurePresentation(error: error) }
+        catch { applicationStatus = "共享配置不可用，请检查原始错误或重新选择 VS Code" }
     }
 
     private func refreshAuthorization() {
@@ -116,7 +103,6 @@ struct ContentView: View {
         } catch {
             transferPending = false
             authorizationStatus = "读取失败，请重新选择 VS Code"
-            failure = FailurePresentation(error: error)
         }
     }
 
@@ -131,8 +117,8 @@ struct ContentView: View {
                 throw VSCodeSelection.Failure.reselect
             }
             try ProbeConfiguration.shared.selectApplication(url)
-            failure = nil
+            configurationFailure = nil
             refresh()
-        } catch { failure = FailurePresentation(error: error) }
+        } catch { configurationFailure = OpenFailure(error: error) }
     }
 }

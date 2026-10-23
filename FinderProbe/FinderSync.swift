@@ -5,6 +5,7 @@ import OSLog
 @objc(FinderSync)
 final class FinderSync: FIFinderSync {
     private let logger = Logger(subsystem: "com.point.OpenWithX.FinderProbe", category: "finder")
+    private let opener = TargetFolderOpener()
     private var volumeMonitor: LocalVolumeMonitor?
     private var selectionObserver: NSObjectProtocol?
 
@@ -51,13 +52,12 @@ final class FinderSync: FIFinderSync {
     }
 
     @objc private func openTarget() {
-        guard let target = TargetFolderSelection.target(
-            in: FIFinderSyncController.default().selectedItemURLs() ?? []
-        ) else {
+        let selection = FIFinderSyncController.default().selectedItemURLs() ?? []
+        guard selection.count == 1, let target = selection.first else {
             reportFailure(CocoaError(.fileNoSuchFile))
             return
         }
-        TargetFolderOpener().open(target) { [self] result in
+        opener.open(target) { [self] result in
             switch result {
             case .success:
                 logger.notice("NSWorkspace accepted the open request; editor loading is not verified")
@@ -69,20 +69,16 @@ final class FinderSync: FIFinderSync {
 
     private func reportFailure(_ error: Error) {
         logger.error("Open request failed; attempting host handoff")
-        var url = URLComponents()
-        url.scheme = "openwithx-probe"
-        url.host = "failure"
-        url.queryItems = [
-            URLQueryItem(name: "detail", value: String(describing: error)),
-            URLQueryItem(name: "message", value: (error as? VSCodeSelection.Failure)?.errorDescription
-                ?? "打开失败，请检查 VS Code 选择及系统权限。")
-        ]
-        guard let failureURL = url.url else { return }
+        guard let failureURL = OpenFailure(error: error).handoffURL else { return }
         // Resolve the containing app, never an arbitrary application registered for the scheme.
         let host = Bundle.main.bundleURL.deletingLastPathComponent()
             .deletingLastPathComponent().deletingLastPathComponent()
+        let configuration = NSWorkspace.OpenConfiguration()
+        configuration.activates = true
+        configuration.addsToRecentItems = false
+        configuration.allowsRunningApplicationSubstitution = false
         NSWorkspace.shared.open([failureURL], withApplicationAt: host,
-                                configuration: NSWorkspace.OpenConfiguration()) { [self] _, error in
+                                configuration: configuration) { [self] _, error in
             if error != nil { logger.error("Host error handoff failed") }
         }
     }

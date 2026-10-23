@@ -1,0 +1,2 @@
+Timestamp               Ty Process[PID:TID]
+2026-10-23 10:16:49.406 Df FinderProbe[61794:9d7ce] [com.point.OpenWithX.FinderProbe:finder] NSWorkspace accepted the open request; editor loading is not verified

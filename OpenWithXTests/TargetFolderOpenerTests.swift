@@ -19,6 +19,7 @@ struct TargetFolderOpenerTests {
                 "vscode://file\(root.path)/%E4%B8%AD%E6%96%87%20Project/Nested%20%23%3F&:42/?windowId=_blank"
             ])
             #expect(configuration.activates)
+            #expect(!configuration.addsToRecentItems)
             #expect(!configuration.createsNewApplicationInstance)
             #expect(!configuration.allowsRunningApplicationSubstitution)
             systemReply = reply
@@ -50,7 +51,7 @@ struct TargetFolderOpenerTests {
             return
         }
         #expect((error as NSError).domain == NSCocoaErrorDomain)
-        #expect((error as NSError).code == CocoaError.fileNoSuchFile.rawValue)
+        #expect((error as NSError).code == CocoaError.fileReadNoSuchFile.rawValue)
     }
 
     @Test func preservesSystemRejection() throws {
@@ -91,6 +92,64 @@ struct TargetFolderOpenerTests {
         #expect(error as? VSCodeSelection.Failure == .notFound)
         // Eligibility is independent of application discovery, so the menu remains available.
         #expect(TargetFolderSelection.target(in: [folder]) == folder)
+    }
+
+    @Test func coalescesOnlyInFlightRequestsForTheSameTarget() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        let other = root.appendingPathComponent("Other")
+        try FileManager.default.createDirectory(at: other, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        var replies: [(Error?) -> Void] = []
+        var completions = 0
+        let opener = TargetFolderOpener(application: {
+            URL(fileURLWithPath: "/Applications/Visual Studio Code.app")
+        }, runningApplications: { [] }) { _, _, _, reply in replies.append(reply) }
+        opener.open(root) { _ in completions += 1 }
+        opener.open(root.appendingPathComponent(".")) { _ in completions += 1 }
+        opener.open(other) { _ in completions += 1 }
+        #expect(replies.count == 2)
+        let first = try #require(replies.first)
+        first(CocoaError(.fileReadNoPermission))
+        first(nil) // A duplicate system callback must not produce another presentation.
+        #expect(completions == 1)
+        opener.open(root) { _ in completions += 1 }
+        #expect(replies.count == 3)
+        replies[1](nil)
+        #expect(completions == 2)
+    }
+
+    @Test func preservesRealMetadataPermissionFailureAndRecoversAfterPermissionRepair() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        let folder = root.appendingPathComponent("Project")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer {
+            try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: root.path)
+            try? FileManager.default.removeItem(at: root)
+        }
+        try FileManager.default.setAttributes([.posixPermissions: 0o000], ofItemAtPath: root.path)
+        var submissions = 0
+        var outcome: Result<Void, Error>?
+        let opener = TargetFolderOpener(application: {
+            URL(fileURLWithPath: "/Applications/Visual Studio Code.app")
+        }, runningApplications: { [] }) { _, _, _, reply in
+            submissions += 1
+            reply(nil)
+        }
+        opener.open(URL(fileURLWithPath: folder.path)) { outcome = $0 }
+        let rejection = try #require(outcome)
+        guard case .failure(let error) = rejection else {
+            Issue.record("Metadata access should fail before system submission")
+            return
+        }
+        #expect(OpenFailure(error: error).reason == .accessDenied)
+        #expect(submissions == 0)
+        try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: root.path)
+        opener.open(URL(fileURLWithPath: folder.path)) { outcome = $0 }
+        guard case .success? = outcome else {
+            Issue.record("Repairing permissions should allow a fresh request")
+            return
+        }
+        #expect(submissions == 1)
     }
 
 }

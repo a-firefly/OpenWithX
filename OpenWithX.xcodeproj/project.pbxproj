@@ -11,6 +11,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXBuildFile section */
+        A50000000000000000000001 = {isa = PBXBuildFile; fileRef = A50000000000000000000002; };
 		A10000000000000000000001 = {isa = PBXBuildFile; fileRef = A10000000000000000000002; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A10000000000000000000003 = {isa = PBXBuildFile; fileRef = A10000000000000000000004; };
 		A10000000000000000000005 = {isa = PBXBuildFile; fileRef = A10000000000000000000006; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+        A50000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWithX/OpenFailure.swift; sourceTree = SOURCE_ROOT; };
 		A10000000000000000000002 = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; path = FinderProbe.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWithX/ProbePolicy.swift; sourceTree = SOURCE_ROOT; };
 		A10000000000000000000006 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWithX/ProbeConfiguration.swift; sourceTree = SOURCE_ROOT; };
@@ -249,7 +251,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A10000000000000000000009 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000003, A10000000000000000000005, A20000000000000000000001, A30000000000000000000001, ); runOnlyForDeploymentPostprocessing = 0; };
+		A10000000000000000000009 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000003, A10000000000000000000005, A20000000000000000000001, A30000000000000000000001, A50000000000000000000001, ); runOnlyForDeploymentPostprocessing = 0; };
 		D7F15C4230889F08008AE1DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
