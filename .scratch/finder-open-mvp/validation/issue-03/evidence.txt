@@ -1,0 +1,14 @@
+2026-10-23 Asia/Shanghai
+2026-10-23 09:33:55.325 Df FinderProbe[55206:8f3f8] [com.point.OpenWithX.FinderProbe:finder] Registered local volume count: 2
+2026-10-23 09:33:55.326 Df FinderProbe[55206:8f3f8] [com.point.OpenWithX.FinderProbe:finder] Application selection synchronized using recipient-owned authorization
+2026-10-23 09:33:55.326 Df FinderProbe[55206:8f3f8] [com.point.OpenWithX.FinderProbe:finder] Finder extension started; scope registration is not an access grant
+2026-10-23 09:34:18.493 Df FinderProbe[55206:8f5b3] [com.point.OpenWithX.FinderProbe:finder] NSWorkspace accepted the open request; editor loading is not verified
+2026-10-23 09:37:17.207 Df FinderProbe[55206:8f41a] [com.point.OpenWithX.FinderProbe:finder] NSWorkspace accepted the open request; editor loading is not verified
+2026-10-23 09:37:36.705 Df FinderProbe[55206:90dce] [com.point.OpenWithX.FinderProbe:finder] NSWorkspace accepted the open request; editor loading is not verified
+
+pgrep -x FinderProbe: 55206
+pgrep -x OpenWithX: no process (exit 1), after all three requests
+Installed extension registration: 8D1E1D13-0665-4EC2-B07F-07D021E7554D
+09:34:18 internal disk: 中文 Project
+09:37:17 mounted SSD: 中文 Project (Explorer child full path verified)
+09:37:36 mounted SSD: Nested Folder (window/Explorer root verified)

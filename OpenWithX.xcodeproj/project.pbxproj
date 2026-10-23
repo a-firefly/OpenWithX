@@ -15,6 +15,7 @@
 		A10000000000000000000003 = {isa = PBXBuildFile; fileRef = A10000000000000000000004; };
 		A10000000000000000000005 = {isa = PBXBuildFile; fileRef = A10000000000000000000006; };
 		A20000000000000000000001 = {isa = PBXBuildFile; fileRef = A20000000000000000000002; };
+		A30000000000000000000001 = {isa = PBXBuildFile; fileRef = A30000000000000000000002; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		D7F15C5530889F09008AE1DB /* OpenWithXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenWithXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F15C5F30889F09008AE1DB /* OpenWithXUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenWithXUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWithX/TargetFolderOpener.swift; sourceTree = SOURCE_ROOT; };
+		A30000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWithX/LocalVolumeMonitor.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -247,7 +249,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A10000000000000000000009 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000003, A10000000000000000000005, A20000000000000000000001, ); runOnlyForDeploymentPostprocessing = 0; };
+		A10000000000000000000009 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000003, A10000000000000000000005, A20000000000000000000001, A30000000000000000000001, ); runOnlyForDeploymentPostprocessing = 0; };
 		D7F15C4230889F08008AE1DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (

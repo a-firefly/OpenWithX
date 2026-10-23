@@ -5,17 +5,14 @@ import OSLog
 @objc(FinderSync)
 final class FinderSync: FIFinderSync {
     private let logger = Logger(subsystem: "com.point.OpenWithX.FinderProbe", category: "finder")
-    private var observers: [NSObjectProtocol] = []
+    private var volumeMonitor: LocalVolumeMonitor?
     private var selectionObserver: NSObjectProtocol?
 
     override init() {
         super.init()
-        updateCoverage()
-        for name in [NSWorkspace.didMountNotification, NSWorkspace.didUnmountNotification,
-                     NSWorkspace.didRenameVolumeNotification] {
-            observers.append(NSWorkspace.shared.notificationCenter.addObserver(
-                forName: name, object: nil, queue: .main
-            ) { [weak self] _ in self?.updateCoverage() })
+        volumeMonitor = LocalVolumeMonitor { [weak self] roots in
+            FIFinderSyncController.default().directoryURLs = roots
+            self?.logger.notice("Registered local volume count: \(roots.count)")
         }
         selectionObserver = DistributedNotificationCenter.default().addObserver(
             forName: ProbeConfiguration.selectionChanged, object: nil, queue: .main
@@ -25,7 +22,6 @@ final class FinderSync: FIFinderSync {
     }
 
     deinit {
-        for observer in observers { NSWorkspace.shared.notificationCenter.removeObserver(observer) }
         if let selectionObserver { DistributedNotificationCenter.default().removeObserver(selectionObserver) }
     }
 
@@ -37,17 +33,6 @@ final class FinderSync: FIFinderSync {
             // A disabled extension may miss the sender's transfer window. Never auto-fallback.
             logger.error("Application authorization not synchronized; explicit reselection may be required")
         }
-    }
-
-    private func updateCoverage() {
-        let volumes = FileManager.default.mountedVolumeURLs(
-            includingResourceValuesForKeys: [.volumeIsLocalKey], options: [.skipHiddenVolumes]
-        ) ?? []
-        let roots = LocalVolumeCoverage.roots(from: volumes.map {
-            .init(url: $0, isLocal: try? $0.resourceValues(forKeys: [.volumeIsLocalKey]).volumeIsLocal)
-        })
-        FIFinderSyncController.default().directoryURLs = roots
-        logger.notice("Registered local volume count: \(roots.count)")
     }
 
     override func menu(for menuKind: FIMenuKind) -> NSMenu? {
