@@ -27,7 +27,7 @@ final class TargetFolderOpener {
     }
 
     func open(_ folder: URL, completion: @escaping (Result<Void, Error>) -> Void) {
-        let key = folder.standardizedFileURL
+        let key = URL(fileURLWithPath: folder.standardizedFileURL.path, isDirectory: true)
         guard inFlight[key] == nil else { return }
         let id = UUID()
         inFlight[key] = id

@@ -104,8 +104,9 @@ struct TargetFolderOpenerTests {
         let opener = TargetFolderOpener(application: {
             URL(fileURLWithPath: "/Applications/Visual Studio Code.app")
         }, runningApplications: { [] }) { _, _, _, reply in replies.append(reply) }
-        opener.open(root) { _ in completions += 1 }
+        opener.open(URL(fileURLWithPath: root.path, isDirectory: false)) { _ in completions += 1 }
         opener.open(root.appendingPathComponent(".")) { _ in completions += 1 }
+        opener.open(URL(fileURLWithPath: root.path, isDirectory: true)) { _ in completions += 1 }
         opener.open(other) { _ in completions += 1 }
         #expect(replies.count == 2)
         let first = try #require(replies.first)

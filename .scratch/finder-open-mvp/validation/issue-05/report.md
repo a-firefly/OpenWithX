@@ -26,10 +26,13 @@
 | URL 交接、展示队列、ID 去重、非法 URL | `red5.log` 接口不存在 | `green5.log` |
 | 启动权限及不兼容应用错误 | `red6.log` 断言失败 | `green6.log` |
 | 不登记系统最近项目 | `red7.log` 断言失败 | `green7.log` |
+| 同路径显式有无末尾斜杠合并 | `red8-explicit.log` 断言失败 | `green8.log` |
 
 真实元数据用例只对自建临时父目录设置 000，打开其子目标得到原生访问拒绝；恢复 700 后新请求可交付。此测试不证明 Finder 或 NSWorkspace 收到了同样错误，NSWorkspace 提交仍由测试控制。每轮 xcodebuild 同时编译主应用及扩展。
 
-最终完整套件、Release 构建与审查结果在验收完成后补充。最低部署目标保持 macOS 26.0、arm64。
+末尾斜杠回归首次使用自动推断目录类型的 URL 时已通过（`red8.log`），不能作为 red 证据；改为显式不同目录标记后才观察到失败，再统一目录 URL key 修复。双轴审查及修复复核无未解决问题，见 [review.md](review.md)。最终 Release arm64 构建退出 0（`final-release.log`）；严格深层签名核验通过，双方 app-sandbox、app-scope bookmarks、只读应用选择和 App Group 保持（`final-signature.log`）。这是开发签名构建，不是公证交付。无 Swift 编译警告，仅有未依赖 AppIntents 的工具提示。
+
+完整套件已执行一次（`full-tests.log`）：25 个逻辑用例运行通过，UI 运行器在测试执行前因“Timed out while enabling automation mode”初始化超时，整体退出 65，不能称为完整套件通过。系统日志明确显示“Writer daemon requires authentication to enable automation mode”及“Enable UI Automation”本机认证请求（`ui-diagnostics.log`）；尚待用户完成本机身份验证，UI 单独重试结果待补充。未绕过认证或更改系统安全设置。最低部署目标保持 macOS 26.0、arm64。
 
 ## 实机证据
 
