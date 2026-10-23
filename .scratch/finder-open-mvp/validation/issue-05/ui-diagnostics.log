@@ -1,0 +1,30 @@
+Timestamp               Ty Process[PID:TID]
+2026-10-23 11:43:21.670 Df testmanagerd[6494:b2ea8] [com.apple.dt.xctest:Default] Session summary: 1 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:43:21.769 Df testmanagerd[6494:b1e73] [com.apple.dt.xctest:Default] disableAutomationModeForClient
+2026-10-23 11:43:21.769 Df testmanagerd[6494:b1e73] [com.apple.dt.xctest:Default] Session summary: 0 test sessions, 1 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:43:22.025 Df testmanagerd[6494:b1e73] [com.apple.dt.xctest:Default] Session summary: 0 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:43:22.175 Df testmanagerd[6494:b1e73] [com.apple.dt.xctest:Default] Session summary: 0 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, does not have control sessions
+2026-10-23 11:44:07.697 Df testmanagerd[6494:b3107] [com.apple.dt.xctest:Default] Session summary: 1 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:44:07.800 Df testmanagerd[6494:b33c2] [com.apple.dt.xctest:Default] disableAutomationModeForClient
+2026-10-23 11:44:07.800 Df testmanagerd[6494:b33c2] [com.apple.dt.xctest:Default] Session summary: 0 test sessions, 1 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:44:08.065 Df testmanagerd[6494:b33c3] [com.apple.dt.xctest:Default] Session summary: 0 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:44:08.067 Df testmanagerd[6494:f95b] [com.apple.xpc:connection] [0x8d33a2100] activating connection: mach=false listener=false peer=false name=com.apple.dt.xctautomationsupport.LogArchiveCollector
+2026-10-23 11:44:16.001 Df testmanagerd[6494:b3493] [com.apple.dt.xctest:Default] Session summary: 0 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, does not have control sessions
+2026-10-23 11:44:33.243 Df testmanagerd[6494:b36d8] [com.apple.dt.xctest:Default] Session summary: 1 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:44:33.295 Df testmanagerd[6494:b36db] [com.apple.dt.xctest:Default] disableAutomationModeForClient
+2026-10-23 11:44:33.295 Df testmanagerd[6494:b36db] [com.apple.dt.xctest:Default] Session summary: 0 test sessions, 1 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:44:33.554 Df testmanagerd[6494:b3494] [com.apple.dt.xctest:Default] Session summary: 0 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:44:33.731 Df testmanagerd[6494:b36db] [com.apple.dt.xctest:Default] Session summary: 0 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, does not have control sessions
+2026-10-23 11:44:52.617 Df testmanagerd[6494:b3966] [com.apple.dt.xctest:Default] Session summary: 1 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:44:52.630 Df testmanagerd[6494:b36dc] [com.apple.dt.xctest:Default] Test session with pid 65550 requesting automation mode
+2026-10-23 11:44:52.630 Df testmanagerd[6494:b36dc] [com.apple.dt.xctest:Default] Added Automation Mode client <XCTestSession: 0x8d31610a0> pid 65550. Total clients: 1
+2026-10-23 11:44:52.630 Df testmanagerd[6494:b36dc] [com.apple.dt.xctest:Default] Enabling Automation Mode...
+2026-10-23 11:44:52.630 Df testmanagerd[6494:b36dc] [com.apple.xpc:connection] [0x8d31d2a80] activating connection: mach=true listener=false peer=false name=com.apple.dt.automationmode.writer
+2026-10-23 11:44:52.638 Df testmanagerd[6494:b36dc] [com.apple.dt.automationmode:Default] Writer daemon requires authentication to enable automation mode.
+2026-10-23 11:44:52.640 Df testmanagerd[6494:b36dc] [com.apple.LocalAuthentication:Client,Interactive,SPI] evaluatePolicy:2 options:{
+    2 = "Enable UI Automation";
+} on LAContext[3:998:1141] (sync) cid:13
+2026-10-23 11:45:52.666 E  OpenWithXUITests-Runner[65550:b3978] [com.apple.dt.xctest:Default] Failed to initialize for UI testing: Error Domain=com.apple.dt.XCTest.XCTFuture Code=1000 "Timed out while enabling automation mode." UserInfo={NSLocalizedDescription=Timed out while enabling automation mode.}
+2026-10-23 11:45:53.521 Df testmanagerd[6494:b36da] [com.apple.dt.xctest:Default] Session summary: 2 test sessions, 0 sessions with identifiers, 0 unidentified sessions, 0 remote automation sessions, has control sessions
+2026-10-23 11:45:53.648 Df testmanagerd[6494:b3968] [com.apple.dt.xctest:Default] disableAutomationModeForClient
+2026-10-23 11:45:53.901 Df testmanagerd[6494:f95b] [com.apple.xpc:connection] [0x8d33a2700] activating connection: mach=false listener=false peer=false name=com.apple.dt.xctautomationsupport.LogArchiveCollector

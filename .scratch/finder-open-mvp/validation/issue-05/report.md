@@ -32,7 +32,7 @@
 
 末尾斜杠回归首次使用自动推断目录类型的 URL 时已通过（`red8.log`），不能作为 red 证据；改为显式不同目录标记后才观察到失败，再统一目录 URL key 修复。双轴审查及修复复核无未解决问题，见 [review.md](review.md)。最终 Release arm64 构建退出 0（`final-release.log`）；严格深层签名核验通过，双方 app-sandbox、app-scope bookmarks、只读应用选择和 App Group 保持（`final-signature.log`）。这是开发签名构建，不是公证交付。无 Swift 编译警告，仅有未依赖 AppIntents 的工具提示。
 
-完整套件已执行一次（`full-tests.log`）：25 个逻辑用例运行通过，UI 运行器在测试执行前因“Timed out while enabling automation mode”初始化超时，整体退出 65，不能称为完整套件通过。系统日志明确显示“Writer daemon requires authentication to enable automation mode”及“Enable UI Automation”本机认证请求（`ui-diagnostics.log`）；尚待用户完成本机身份验证，UI 单独重试结果待补充。未绕过认证或更改系统安全设置。最低部署目标保持 macOS 26.0、arm64。
+完整套件已执行一次（`full-tests.log`）：25 个逻辑用例运行通过，UI 运行器在测试执行前因“Timed out while enabling automation mode”初始化超时，整体退出 65，不能称为完整套件通过。系统日志明确显示“Writer daemon requires authentication to enable automation mode”及“Enable UI Automation”本机认证请求（[系统诊断](ui-diagnostics.log)）；尚待用户完成本机身份验证，关闭测试并行后单独重试 UI（`ui-retry.log`）仍停留在运行器初始化且未执行测试；等待用户认证期间停止本次重试，未记为通过。未绕过认证或更改系统安全设置。最低部署目标保持 macOS 26.0、arm64。
 
 ## 实机证据
 
@@ -51,3 +51,7 @@
 - 选择与统一错误恢复的最终联验由 issue 06 完成；issue 04 系统重启授权验收仍待确认。
 - 去重 ID 只在本进程存活期间保留，退出后不保存，避免持久诊断/历史。跨多个扩展进程未做全局合并。
 - 上述实机验收在最后补充错误常量与关闭系统最近项目登记前执行；最终构建单独测试和签名检查，不将先前实测扩大到未执行范围。
+
+## 最终安装与提交
+
+最终 Release 已完整安装到 `/Applications/OpenWithX.app`，安装副本严格深层签名核验通过。原安装备份 `/tmp/OpenWithX-issue05-previous.app` 保留。提交 `ce27ec7` 完成主体实现，`bef9551` 完成目录 URL 合并修复和验收记录。工作代码已完成；UI 自动化的系统本机认证待用户操作，Issue 暂记 `ready-for-human`，不将其写成完整测试通过。
