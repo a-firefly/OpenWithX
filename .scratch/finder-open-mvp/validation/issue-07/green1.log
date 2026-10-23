@@ -1,0 +1,6 @@
+test_rejects_development_signature (test_self_use.DeliveryTests.test_rejects_development_signature) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.181s
+
+OK

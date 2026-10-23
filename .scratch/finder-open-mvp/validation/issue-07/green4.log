@@ -1,0 +1,9 @@
+test_rejects_development_signature (test_self_use.DeliveryTests.test_rejects_development_signature) ... ok
+test_rejects_development_signed_extension (test_self_use.DeliveryTests.test_rejects_development_signed_extension) ... ok
+test_rejects_embedded_profile_in_extension (test_self_use.DeliveryTests.test_rejects_embedded_profile_in_extension) ... ok
+test_rejects_missing_secure_timestamp (test_self_use.DeliveryTests.test_rejects_missing_secure_timestamp) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.972s
+
+OK

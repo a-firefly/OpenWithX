@@ -1,0 +1,72 @@
+test_accepts_complete_private_backup (test_self_use.DeliveryTests.test_accepts_complete_private_backup) ... ok
+test_rejects_development_signature (test_self_use.DeliveryTests.test_rejects_development_signature) ... ok
+test_rejects_development_signed_extension (test_self_use.DeliveryTests.test_rejects_development_signed_extension) ... ok
+test_rejects_embedded_profile_in_extension (test_self_use.DeliveryTests.test_rejects_embedded_profile_in_extension) ... ok
+test_rejects_missing_notarization_ticket (test_self_use.DeliveryTests.test_rejects_missing_notarization_ticket) ... ok
+test_rejects_missing_secure_timestamp (test_self_use.DeliveryTests.test_rejects_missing_secure_timestamp) ... ok
+test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) ...
+  test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) (scenario='wrong-team') ... FAIL
+  test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) (scenario='no-runtime') ... FAIL
+  test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) (scenario='no-sandbox') ... FAIL
+  test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) (scenario='debug-entitlement') ... FAIL
+  test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) (scenario='intel') ... FAIL
+test_requires_finder_extension (test_self_use.DeliveryTests.test_requires_finder_extension) ... FAIL
+
+======================================================================
+FAIL: test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) (scenario='wrong-team')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/ssd/codes/swift/OpenWithX/scripts/tests/test_self_use.py", line 104, in test_rejects_wrong_team_architecture_or_permissions
+    self.assertNotEqual(result.returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) (scenario='no-runtime')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/ssd/codes/swift/OpenWithX/scripts/tests/test_self_use.py", line 104, in test_rejects_wrong_team_architecture_or_permissions
+    self.assertNotEqual(result.returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) (scenario='no-sandbox')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/ssd/codes/swift/OpenWithX/scripts/tests/test_self_use.py", line 104, in test_rejects_wrong_team_architecture_or_permissions
+    self.assertNotEqual(result.returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) (scenario='debug-entitlement')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/ssd/codes/swift/OpenWithX/scripts/tests/test_self_use.py", line 104, in test_rejects_wrong_team_architecture_or_permissions
+    self.assertNotEqual(result.returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) (scenario='intel')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/ssd/codes/swift/OpenWithX/scripts/tests/test_self_use.py", line 104, in test_rejects_wrong_team_architecture_or_permissions
+    self.assertNotEqual(result.returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_requires_finder_extension (test_self_use.DeliveryTests.test_requires_finder_extension)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/ssd/codes/swift/OpenWithX/scripts/tests/test_self_use.py", line 110, in test_requires_finder_extension
+    self.assertNotEqual(result.returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 8 tests in 5.101s
+
+FAILED (failures=6)

@@ -1,0 +1,18 @@
+test_rejects_development_signature (test_self_use.DeliveryTests.test_rejects_development_signature) ... ok
+test_rejects_development_signed_extension (test_self_use.DeliveryTests.test_rejects_development_signed_extension) ... ok
+test_rejects_embedded_profile_in_extension (test_self_use.DeliveryTests.test_rejects_embedded_profile_in_extension) ... FAIL
+test_rejects_missing_secure_timestamp (test_self_use.DeliveryTests.test_rejects_missing_secure_timestamp) ... ok
+
+======================================================================
+FAIL: test_rejects_embedded_profile_in_extension (test_self_use.DeliveryTests.test_rejects_embedded_profile_in_extension)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/ssd/codes/swift/OpenWithX/scripts/tests/test_self_use.py", line 86, in test_rejects_embedded_profile_in_extension
+    self.assertNotEqual(result.returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.331s
+
+FAILED (failures=1)

@@ -1,0 +1,13 @@
+test_accepts_complete_private_backup (test_self_use.DeliveryTests.test_accepts_complete_private_backup) ... ok
+test_rejects_development_signature (test_self_use.DeliveryTests.test_rejects_development_signature) ... ok
+test_rejects_development_signed_extension (test_self_use.DeliveryTests.test_rejects_development_signed_extension) ... ok
+test_rejects_embedded_profile_in_extension (test_self_use.DeliveryTests.test_rejects_embedded_profile_in_extension) ... ok
+test_rejects_missing_notarization_ticket (test_self_use.DeliveryTests.test_rejects_missing_notarization_ticket) ... ok
+test_rejects_missing_secure_timestamp (test_self_use.DeliveryTests.test_rejects_missing_secure_timestamp) ... ok
+test_rejects_wrong_team_architecture_or_permissions (test_self_use.DeliveryTests.test_rejects_wrong_team_architecture_or_permissions) ... ok
+test_requires_finder_extension (test_self_use.DeliveryTests.test_requires_finder_extension) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 3.656s
+
+OK

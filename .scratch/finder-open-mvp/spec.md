@@ -1,6 +1,6 @@
 # OpenWithX MVP 规格
 
-状态：需求决策已确认。issue 01 已按用户调整后的核心可行性验收范围关闭；OpenWithX 可识别访问拒绝时的提示与恢复验证移交 issue 05。issue 02 已实现本地目标文件夹正式打开入口，10 个逻辑测试、2 个现有 UI 测试、Release 构建及 Finder 实机回归通过，两路代码审查通过，任务已关闭，详见 [issue 02 验证记录](validation/issue-02/report.md)。issue 03 已按本轮用户调整的验收范围关闭，生命周期逻辑及冷启动验证见 [issue 03 验证记录](validation/issue-03/report.md)；外部存储真实挂载变化跳过、系统重启实测豁免，不记为已实测通过。issue 04 已实现正式版发现、手动选择、持久授权和官方下载入口，并实测跨进程同步与主应用退出后的扩展冷启动打开；用户已确认重启前后均能使用保存的手动副本打开，issue 04 已关闭，详见 [issue 04 验证记录](validation/issue-04/report.md)。错误恢复与在途请求合并已由 issue 05 实现，真实失败唤起与恢复、25 个逻辑用例、Release 构建及两路审查通过；用户完成系统本机身份验证后 2 个既有 UI 测试重跑通过，Issue 05 已按约定范围关闭，Finder 原生访问拒绝保留证据缺口，详见 [issue 05 验证记录](validation/issue-05/report.md)。issue 06 已完成首次配置及中英文/其他语言回退，真实配置、Finder 打开与失败恢复已联验；未安装和副本失效采用用户明确接受的既有证据组合，详见 [issue 06 验证记录](validation/issue-06/report.md)。公开交付继续由 issue 07 跟进。可用性承诺仅限当前用户已验证环境，干净权限环境验收已取消，既有 TCC 授权影响未排除；详见 [issue 01 后续验证](validation/issue-01/followup.md)。
+状态：需求决策已确认。issue 01 已按用户调整后的核心可行性验收范围关闭；OpenWithX 可识别访问拒绝时的提示与恢复验证移交 issue 05。issue 02 已实现本地目标文件夹正式打开入口，10 个逻辑测试、2 个现有 UI 测试、Release 构建及 Finder 实机回归通过，两路代码审查通过，任务已关闭，详见 [issue 02 验证记录](validation/issue-02/report.md)。issue 03 已按本轮用户调整的验收范围关闭，生命周期逻辑及冷启动验证见 [issue 03 验证记录](validation/issue-03/report.md)；外部存储真实挂载变化跳过、系统重启实测豁免，不记为已实测通过。issue 04 已实现正式版发现、手动选择、持久授权和官方下载入口，并实测跨进程同步与主应用退出后的扩展冷启动打开；用户已确认重启前后均能使用保存的手动副本打开，issue 04 已关闭，详见 [issue 04 验证记录](validation/issue-04/report.md)。错误恢复与在途请求合并已由 issue 05 实现，真实失败唤起与恢复、25 个逻辑用例、Release 构建及两路审查通过；用户完成系统本机身份验证后 2 个既有 UI 测试重跑通过，Issue 05 已按约定范围关闭，Finder 原生访问拒绝保留证据缺口，详见 [issue 05 验证记录](validation/issue-05/report.md)。issue 06 已完成首次配置及中英文/其他语言回退，真实配置、Finder 打开与失败恢复已联验；未安装和副本失效采用用户明确接受的既有证据组合，详见 [issue 06 验证记录](validation/issue-06/report.md)。Issue 07 已完成长期自用签名公证工具、真实公证安装与基础 Finder 打开；冷启动恢复、系统重启及完整回归仍待验收，详见 [issue 07 验证记录](validation/issue-07/report.md)。不要求公开交付。可用性承诺仅限当前用户已验证环境，干净权限环境验收已取消，既有 TCC 授权影响未排除；详见 [issue 01 后续验证](validation/issue-01/followup.md)。
 
 ## 版本验收补充（2026-10-22）
 
@@ -16,12 +16,12 @@
 
 ## 产品目标与平台
 
-产品使用场景面向已安装正式版 Visual Studio Code、会使用 Finder 的开发者；当前可用性承诺仅限当前用户已验证的环境，不保证其他用户正常使用。让用户在 Finder 中右击单个项目文件夹，通过一级菜单直接交给 VS Code 打开。首次配置和日常使用均无需终端命令。
+产品仅供当前用户本机自用，使用场景为已安装正式版 Visual Studio Code、通过 Finder 打开项目；当前可用性承诺仅限当前用户已验证的环境，不保证其他用户正常使用。让用户在 Finder 中右击单个项目文件夹，通过一级菜单直接交给 VS Code 打开。首次配置和日常使用均无需终端命令。
 
 - 支持 macOS 26 系列，从 26.0 起，仅 Apple Silicon。
 - 简体中文菜单为“使用 VS Code 打开”，英文为“Open in VS Code”。界面跟随系统语言，其他语言回退英文；不提供应用内语言切换。
-- 首个公开版本通过官网或 GitHub 直接下载，交付 Developer ID 签名、Apple 公证的 Apple Silicon DMG，引导安装到“应用程序”。后续手动下载更新，不自动检查更新，不要求 Mac App Store 上架。
-- 开发者账号、证书和发布条件在发布阶段检查。本机开发构建不等于完成公开发布交付。
+- 仅提供当前用户本机自用的 Apple Silicon 构建，安装到“应用程序”；不通过官网或 GitHub 公开交付。通过手动替换本机构建更新，不自动检查更新，不要求 Mac App Store 上架。
+- 日常开发保留开发签名；为会员自然到期后继续使用既有版本，自用交付采用 Developer ID Application 签名、安全时间戳、Apple 公证及附加票据，不嵌入 Provisioning Profile；DMG 仅作为便于本机保存或重装的可选包装。
 
 ## 首次配置与主应用
 
@@ -111,13 +111,13 @@
 | 错误界面 | 主应用关闭时失败能启动或激活它；提示一次、原因明确、恢复可操作 |
 | 状态真实性 | 已启用不等于已验证，未端到端验证时不声称菜单已验证可用 |
 | 本地化与隐私 | 中英文及其他语言回退符合约定；无历史、遥测、自动上传或更新检查 |
-| 公开交付 | 签名与公证的 Apple Silicon DMG，在当前用户环境验证安装、扩展启用和打开流程，不要求干净权限环境，不保证其他用户正常使用 |
+| 自用安装 | Developer ID 签名、安全时间戳、公证及附加票据的 Apple Silicon 构建，不嵌入 Provisioning Profile；在当前用户环境验证安装、扩展启用和打开流程；无需公开下载，DMG 可选；不要求干净权限环境，不保证其他用户正常使用 |
 
 业务逻辑实施遵循项目 TDD 约定：先失败测试，再实现与重构；系统集成还需目标 macOS 环境的手动端到端验证。此阶段不编写或运行业务测试。
 
 ## 明确不在 MVP 范围内
 
-Cursor、Qoder、VS Code Insiders、自定义任意开发工具；多选、文件、空白处打开当前目录；所有 Finder 位置无例外的覆盖保证，含网络卷、云盘及特殊虚拟位置；链接解析；可配置窗口策略；编辑器加载监控；常驻状态栏功能；打开历史、遥测和自动更新；旧版 macOS、Intel 与 Mac App Store 上架。
+Cursor、Qoder、VS Code Insiders、自定义任意开发工具；多选、文件、空白处打开当前目录；所有 Finder 位置无例外的覆盖保证，含网络卷、云盘及特殊虚拟位置；链接解析；可配置窗口策略；编辑器加载监控；常驻状态栏功能；打开历史、遥测和自动更新；旧版 macOS、Intel、公开交付与 Mac App Store 上架。
 
 ## 架构决策与来源
 
@@ -136,7 +136,7 @@ Cursor、Qoder、VS Code Insiders、自定义任意开发工具；多选、文�
 - [NSWorkspace 应用发现](https://developer.apple.com/documentation/appkit/nsworkspace/urlforapplication(withbundleidentifier:))、[打开 URL](https://developer.apple.com/documentation/appkit/nsworkspace/open(_:withapplicationat:configuration:completionhandler:))：应用发现与打开请求。
 - [App Sandbox 文件访问](https://developer.apple.com/documentation/security/accessing-files-from-the-macos-app-sandbox)：访问授权与持久化机制。
 - [Apple DTS：直接分发主应用与扩展的沙盒组合](https://developer.apple.com/forums/thread/776568)：允许非沙盒主应用加沙盒扩展，不代表本项目需要采用该组合。
-- [Apple 公证要求](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)、[分发包装](https://developer.apple.com/documentation/xcode/packaging-mac-software-for-distribution)：发布阶段核验签名、Hardened Runtime、公证与分发票据等条件。
+- [Apple 公证要求](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)、[分发包装](https://developer.apple.com/documentation/xcode/packaging-mac-software-for-distribution)：用于长期自用构建的签名、时间戳、公证与附加票据核验，不要求公开分发。
 
 ## 副本运行冲突补充（2026-10-22）
 
@@ -145,3 +145,11 @@ Cursor、Qoder、VS Code Insiders、自定义任意开发工具；多选、文�
 ## Issue 03 验收安排补充（2026-10-23）
 
 用户要求跳过外部存储卸载、重挂载实测，因为仓库位于 SSD；不操作该盘的挂载状态，不把跳过项记为通过。本地卷生命周期逻辑通过替换系统枚举和通知进行 TDD 验证，扩展冷启动与主应用退出后的打开已实测；用户随后明确豁免本轮系统重启实测，issue 03 按调整范围关闭；豁免不代表已实测跨重启恢复。详见 [issue 03 验证记录](validation/issue-03/report.md)。
+
+## 自用范围调整（2026-10-23）
+
+用户决定不公开交付，仅供当前用户本机自用。Issue 07 改为本机安装与验收，取消公开下载、Developer ID 分发签名、Apple 公证和分发票据要求，DMG 可选。保留开发签名、沙盒、最小权限与既定功能要求；既有验证记录中的公开交付说明属于调整前的历史，不代表仍需完成公开发布。
+
+## 长期自用构建补充（2026-10-23）
+
+用户讨论后要求实施会员自然到期后仍可使用既有版本的方案：自用交付恢复 Developer ID Application 签名、安全时间戳、Apple 公证及附加票据要求，拒绝嵌入 Provisioning Profile；此补充取代前述取消签名公证的部分。不公开交付，DMG 仍可选，日常开发签名保持。证书撤销、未来系统兼容性及会员到期后的新版本签名公证不在持续可用承诺内。详见 [长期自用安装](../../docs/delivery/self-use.md)。
