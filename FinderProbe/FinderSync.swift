@@ -42,9 +42,7 @@ final class FinderSync: FIFinderSync {
             return nil
         }
         let menu = NSMenu()
-        let chinese = Locale.preferredLanguages.first?.hasPrefix("zh-Hans") == true
-            || Locale.preferredLanguages.first?.hasPrefix("zh-CN") == true
-        let item = NSMenuItem(title: chinese ? "使用 VS Code 打开" : "Open in VS Code",
+        let item = NSMenuItem(title: AppText.text("Open in VS Code", "使用 VS Code 打开"),
                               action: #selector(openTarget), keyEquivalent: "")
         item.target = self
         menu.addItem(item)

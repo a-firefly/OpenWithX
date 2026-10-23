@@ -39,10 +39,10 @@ nonisolated enum VSCodeSelection {
 
         var errorDescription: String? {
             switch self {
-            case .notFound: "未发现正式版 VS Code，请手动选择应用。"
-            case .reselect: "所选 VS Code 副本或授权已失效，请重新选择。"
+            case .notFound: AppText.text("The stable version of VS Code was not found. Select the application.", "未发现正式版 VS Code，请手动选择应用。")
+            case .reselect: AppText.text("The selected VS Code copy or authorization is invalid. Select it again.", "所选 VS Code 副本或授权已失效，请重新选择。")
             case .anotherCopyIsRunning:
-                "另一个 VS Code 副本正在运行，无法可靠地将文件夹交给所选副本。请手动选择正在使用的副本，或自行退出其他副本后重试。"
+                AppText.text("Another VS Code copy is running. Select the copy you are using, or quit the other copy yourself and retry.", "另一个 VS Code 副本正在运行，无法可靠地将文件夹交给所选副本。请手动选择正在使用的副本，或自行退出其他副本后重试。")
             }
         }
     }

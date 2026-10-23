@@ -11,10 +11,10 @@ struct OpenFailureTests {
                               userInfo: [NSUnderlyingErrorKey: native])
         let failure = OpenFailure(error: wrapped)
         #expect(failure.reason == .accessDenied)
-        #expect(failure.message.contains("访问被拒绝"))
-        #expect(failure.recovery.contains("权限"))
-        #expect(!failure.message.contains("/private/example-project"))
-        #expect(!failure.recovery.contains("完全磁盘访问"))
+        #expect(failure.message(languages: ["zh-Hans"]).contains("访问被拒绝"))
+        #expect(failure.recovery(languages: ["zh-Hans"]).contains("权限"))
+        #expect(!failure.message(languages: ["zh-Hans"]).contains("/private/example-project"))
+        #expect(!failure.recovery(languages: ["zh-Hans"]).contains("完全磁盘访问"))
         #expect(failure.detail.contains("NSPOSIXErrorDomain"))
     }
     @Test func distinguishesRecoverableFailuresFromUnknownErrors() {
@@ -34,7 +34,7 @@ struct OpenFailureTests {
         for (error, reason, recovery) in cases {
             let failure = OpenFailure(error: error)
             #expect(failure.reason == reason)
-            #expect(failure.recovery.contains(recovery))
+            #expect(failure.recovery(languages: ["zh-Hans"]).contains(recovery))
         }
         #expect(OpenFailure(error: NSError(domain: "Unrecognized", code: -54)).reason == .unknown)
     }

@@ -83,29 +83,33 @@ nonisolated struct OpenFailure: Identifiable {
         return .unknown
     }
 
-    var message: String {
+    var message: String { message(languages: Locale.preferredLanguages) }
+
+    func message(languages: [String]) -> String {
         switch reason {
-        case .accessDenied: "访问被拒绝，未能完成打开请求。"
-        case .applicationMissing: "未发现正式版 VS Code。"
-        case .applicationInvalid: "所选 VS Code 副本或授权已失效。"
-        case .copyConflict: "另一个 VS Code 副本正在运行，无法可靠地交给所选副本。"
-        case .targetUnavailable: "目标文件夹不可用，可能已移动、删除或磁盘已断开。"
-        case .diskUnavailable: "目标所在磁盘不可用或已断开。"
-        case .systemRejected: "系统拒绝启动应用或打开请求。"
-        case .unknown: "打开失败，暂时无法识别原因。"
+        case .accessDenied: AppText.text("Access was denied. The open request could not be completed.", "访问被拒绝，未能完成打开请求。", languages: languages)
+        case .applicationMissing: AppText.text("The stable version of VS Code was not found.", "未发现正式版 VS Code。", languages: languages)
+        case .applicationInvalid: AppText.text("The selected VS Code copy or its authorization is no longer valid.", "所选 VS Code 副本或授权已失效。", languages: languages)
+        case .copyConflict: AppText.text("Another VS Code copy is running. The selected copy cannot reliably receive this request.", "另一个 VS Code 副本正在运行，无法可靠地交给所选副本。", languages: languages)
+        case .targetUnavailable: AppText.text("The target folder is unavailable. It may have moved, been deleted, or its disk disconnected.", "目标文件夹不可用，可能已移动、删除或磁盘已断开。", languages: languages)
+        case .diskUnavailable: AppText.text("The target disk is unavailable or disconnected.", "目标所在磁盘不可用或已断开。", languages: languages)
+        case .systemRejected: AppText.text("The system rejected the application launch or open request.", "系统拒绝启动应用或打开请求。", languages: languages)
+        case .unknown: AppText.text("Opening failed for an unknown reason.", "打开失败，暂时无法识别原因。", languages: languages)
         }
     }
 
-    var recovery: String {
+    var recovery: String { recovery(languages: Locale.preferredLanguages) }
+
+    func recovery(languages: [String]) -> String {
         switch reason {
-        case .accessDenied: "请检查目标文件夹和所选 VS Code 的实际访问权限及系统隐私设置；应用授权失效时重新选择 VS Code，解决后在 Finder 中重试。"
-        case .applicationMissing: "请重新检测、手动选择正式版 VS Code，或主动访问下方官方网站下载。"
-        case .applicationInvalid: "请重新选择正式版 VS Code；不会自动切换到其他副本。"
-        case .copyConflict: "请重新选择正在使用的副本，或自行退出其他副本后在 Finder 中重试。"
-        case .targetUnavailable: "请在 Finder 中检查目标是否存在及磁盘是否已连接，再从当前位置重试。"
-        case .diskUnavailable: "请检查并重新连接目标磁盘，确认目标文件夹可用后在 Finder 中重试。"
-        case .systemRejected: "请检查所选 VS Code 能否由系统正常启动，展开原始错误排查系统限制；必要时重新选择应用后在 Finder 中重试。"
-        case .unknown: "请展开原始错误，检查目标文件夹、磁盘及 VS Code 选择，解决后在 Finder 中重试。"
+        case .accessDenied: AppText.text("Check access to the target folder and selected VS Code, and the relevant system privacy settings. Reselect VS Code if its authorization expired, then retry in Finder.", "请检查目标文件夹和所选 VS Code 的实际访问权限及系统隐私设置；应用授权失效时重新选择 VS Code，解决后在 Finder 中重试。", languages: languages)
+        case .applicationMissing: AppText.text("Detect again, select the stable version of VS Code, or use the official download link below.", "请重新检测、手动选择正式版 VS Code，或主动访问下方官方网站下载。", languages: languages)
+        case .applicationInvalid: AppText.text("Select the stable version of VS Code again. Another copy will not be substituted automatically.", "请重新选择正式版 VS Code；不会自动切换到其他副本。", languages: languages)
+        case .copyConflict: AppText.text("Select the copy you are using, or quit the other copy yourself and retry in Finder.", "请重新选择正在使用的副本，或自行退出其他副本后在 Finder 中重试。", languages: languages)
+        case .targetUnavailable: AppText.text("Check in Finder that the target exists and its disk is connected, then retry from its current location.", "请在 Finder 中检查目标是否存在及磁盘是否已连接，再从当前位置重试。", languages: languages)
+        case .diskUnavailable: AppText.text("Reconnect the target disk and confirm the folder is available, then retry in Finder.", "请检查并重新连接目标磁盘，确认目标文件夹可用后在 Finder 中重试。", languages: languages)
+        case .systemRejected: AppText.text("Check that the system can launch the selected VS Code. Expand the original error to investigate system restrictions; reselect the application if needed, then retry in Finder.", "请检查所选 VS Code 能否由系统正常启动，展开原始错误排查系统限制；必要时重新选择应用后在 Finder 中重试。", languages: languages)
+        case .unknown: AppText.text("Expand the original error and check the target folder, disk, and VS Code selection, then retry in Finder.", "请展开原始错误，检查目标文件夹、磁盘及 VS Code 选择，解决后在 Finder 中重试。", languages: languages)
         }
     }
 }
